@@ -4,7 +4,7 @@ import { auth } from "../firebase/config";
 import { useNavigate } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
-import AuthLayout from "../components/AuthLayout";
+import AuthLayout from "../features/auth/AuthLayout";
 
 function Register() {
   const navigate = useNavigate();

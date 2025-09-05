@@ -9,7 +9,7 @@
 
 const { setGlobalOptions } = require("firebase-functions");
 const { initializeApp } = require("firebase-admin/app");
-const { onRequest } = require("firebase-functions/https");
+const { onCall, HttpsError } = require("firebase-functions/v2/https");
 const fetch = require("node-fetch");
 // const logger = require("firebase-functions/logger");
 
@@ -30,9 +30,14 @@ setGlobalOptions({ maxInstances: 10 });
 
 initializeApp();
 
-exports.searchFragrance = onRequest(async (req, res) => {
+exports.searchFragrance = onCall(async (request) => {
   try {
-    const query = req.query.q;
+    // The client will pass { q: "Dior Sauvage" }
+    const query = request.data.q;
+
+    if (!query) {
+      throw new HttpsError("invalid-argument", "Missing search query.");
+    }
 
     const response = await fetch(
       `https://api.fragella.com/api/v1/fragrances?search=${encodeURIComponent(query)}`,
@@ -44,13 +49,16 @@ exports.searchFragrance = onRequest(async (req, res) => {
     );
 
     if (!response.ok) {
-      throw new Error(`Fragella API error: ${response.status}`);
+      throw new HttpsError("internal", `Fragella API error: ${response.status}`);
     }
 
-    const data = await response.json();
-    res.json(data);
+    const results = await response.json();
+
+    // Return results to the client
+    return { results };
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Search failed" });
+    if (err instanceof HttpsError) throw err;
+    throw new HttpsError("unknown", "Search failed: " + err.message);
   }
 });

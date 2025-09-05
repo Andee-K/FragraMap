@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import FragranceSearch from './FragranceSearch';
 
 function Dashboard() {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSearch = (query) => {
+    // Navigate to FragranceSearch page with the query
+    navigate(`/fragrance-search?q=${encodeURIComponent(query)}`);
+  };
 
   return (
     <div className="dashboard-container">
@@ -12,6 +20,7 @@ function Dashboard() {
       <button onClick={logout} className="logout-btn">
         Logout
       </button>
+      <FragranceSearch></FragranceSearch>
     </div>
   );
 }
