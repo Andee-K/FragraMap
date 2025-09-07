@@ -1,15 +1,12 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import Button from "../../components/Button";
 
-function SearchBar({ onSearch, onInputChange, loading }) {
+function SearchBar({ onSearch, loading }) {
   const [searchItem, setSearchItem] = useState("");
 
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    setSearchItem(value);
-    // Call the parent's input change handler to clear results
-    if (onInputChange) {
-      onInputChange(value);
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      onSearch(searchItem);
     }
   };
 
@@ -18,15 +15,13 @@ function SearchBar({ onSearch, onInputChange, loading }) {
       <input
         type="text"
         value={searchItem}
-        onChange={handleInputChange}
+        onChange={(e) => setSearchItem(e.target.value)}
+        onKeyPress={handleKeyPress}
         placeholder="Search for fragrance"
-        onKeyPress={(e) => e.key === "Enter" && onSearch(searchItem)}
       />
-      <button 
-        onClick={() => onSearch(searchItem)} 
-      >
+      <Button onClick={() => onSearch(searchItem)}>
         {loading ? "Searching..." : "Search"}
-      </button>
+      </Button>
     </div>
   );
 }

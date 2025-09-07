@@ -1,68 +1,38 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url('https://fonts.googleapis.com/css2?family=TikTok+Sans:opsz,wght@12..36,300..900&display=swap');
+@import "tailwindcss";
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@theme {
+  --color-primary-50: oklch(0.9377 0.0138 272.69);
+  --color-primary-100: oklch(0.8438 0.0359 271.52);
+  --color-primary-200: oklch(0.7393 0.0595 271.83);
+  --color-primary-300: oklch(0.6346 0.0839 270.46);
+  --color-primary-400: oklch(0.5519 0.1075 269.48);
+  --color-primary-500: oklch(0.4716 0.1309 267.52);
+  --color-primary-600: oklch(0.4447 0.1302 267.94);
+  --color-primary-700: oklch(0.4114 0.1275 267.24);
+  --color-primary-800: oklch(0.376 0.1258 267.37);
+  --color-primary-900: oklch(0.3132 0.1185 267.92);
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  --color-neutral-50: oklch(0.9808 0.0091 258.34);
+  --color-neutral-100: oklch(0.9646 0.0166 271.24);
+  --color-neutral-200: oklch(0.9398 0.0231 277.95);
+  --color-neutral-300: oklch(0.8942 0.0234 277.93);
+  --color-neutral-400: oklch(0.7844 0.023 274.66);
+  --color-neutral-500: oklch(0.6824 0.0237 277.31);
+  --color-neutral-600: oklch(0.547 0.0238 273.75);
+  --color-neutral-700: oklch(0.4772 0.0228 275.93);
+  --color-neutral-800: oklch(0.3628 0.0245 275.62);
+  --color-neutral-900: oklch(0.2324 0.024 270.17);
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  --font-tiktok: "TikTok Sans", sans-serif;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
+@layer {
+  .tag {
+    text-align: center;
+    padding: 0.15rem 1rem;
+    border: 2px solid black;
+    border-radius: 30px;
+    align-self: center;
   }
 }
