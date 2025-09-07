@@ -6,7 +6,6 @@ import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import Profile from './pages/Profile'
 import Settings from './pages/Settings'
-import FragranceSearch from './pages/FragranceSearch'
 import ProtectedRoute from './features/auth/ProtectedRoute'
 
 function App() {
@@ -24,7 +23,6 @@ function App() {
         <Route path="profile" element={<ProtectedRoute><Profile></Profile></ProtectedRoute>}></Route>
         <Route path="settings" element={<ProtectedRoute><Settings></Settings></ProtectedRoute>}></Route>
       </Route>
-      <Route path="/fragrance-search" element={<ProtectedRoute><FragranceSearch /></ProtectedRoute>} />
     </Routes>
   )
 }

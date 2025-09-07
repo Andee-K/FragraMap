@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import SearchBar from "../features/search/SearchBar";
-import SearchResults from "../features/search/SearchResults";
+import SearchBar from "./SearchBar";
+import FragranceCard from "./FragranceCard";
 import { httpsCallable } from "firebase/functions";
-import { functions } from "../firebase/config";
+import { functions } from "../../firebase/config";
+import FragrancePreviewCard from "./FragrancePreviewCard";
 
-function FragranceSearch() {
+function SearchContainer() {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -14,7 +15,6 @@ function FragranceSearch() {
     setError(null);
 
     try {
-      // Use Firebase callable function
       const searchFragrance = httpsCallable(functions, "searchFragrance");
       const result = await searchFragrance({ q: query });
       setSearchResults(result.data.results);
@@ -41,9 +41,22 @@ function FragranceSearch() {
         loading={loading} 
       />
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <SearchResults results={searchResults} />
+      
+      {/* Search Results - Combined directly into SearchContainer */}
+      {searchResults.length > 0 && (
+        <div>
+          <h3>Search Results:</h3>
+          <ul>
+            {searchResults.map((fragrance) => (
+              <li key={`${fragrance.Name}-${fragrance.Brand}`}>
+                <FragrancePreviewCard fragranceInfo={fragrance} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
 
-export default FragranceSearch;
+export default SearchContainer;
