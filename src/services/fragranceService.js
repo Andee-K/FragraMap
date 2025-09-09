@@ -3,7 +3,7 @@ import {
   getDoc,
   runTransaction,
   serverTimestamp,
-  setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase/config.js";
 
@@ -32,7 +32,7 @@ export async function addUserFragrance(uid, fragranceInfo, fragranceStatus) {
     let globalSnap, userSnap;
     try {
       globalSnap = await tx.get(globalRef); // requires read permission on globalFragrances/{fragranceId}
-      userSnap = await tx.get(userRef);     // requires read permission on users/{uid}/fragrances/{fragranceId}
+      userSnap = await tx.get(userRef); // requires read permission on users/{uid}/fragrances/{fragranceId}
     } catch (e) {
       console.error("[addUserFragrance] read failed", e?.code, e?.message, {
         paths: [globalRef.path, userRef.path],
@@ -46,12 +46,10 @@ export async function addUserFragrance(uid, fragranceInfo, fragranceStatus) {
         id: fragranceId,
         ...fragranceInfo,
         createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
       });
       console.log("[addUserFragrance] queued create global", fragranceId);
-    }
-    else {
-        console.log("[addUserFragrance] global already exists", fragranceId);
+    } else {
+      console.log("[addUserFragrance] global already exists", fragranceId);
     }
 
     if (userSnap.exists()) {
@@ -65,9 +63,9 @@ export async function addUserFragrance(uid, fragranceInfo, fragranceStatus) {
       rating: null,
       personalNotes: "",
       createdAt: serverTimestamp(),
-      lastUpdated: serverTimestamp(),
-      Name: fragranceInfo.Name,
-      Brand: fragranceInfo.Brand,
+      testDate: null,
+      name: fragranceInfo.Name,
+      brand: fragranceInfo.Brand,
     };
 
     tx.set(userRef, userFragranceData);
@@ -75,4 +73,25 @@ export async function addUserFragrance(uid, fragranceInfo, fragranceStatus) {
 
     return { id: fragranceId, created: true };
   });
+}
+
+// Atomically update fields on a user fragrance document
+export async function updateUserFragrance(uid, fragranceId, patch) {
+  const ref = doc(db, "users", uid, "fragrances", fragranceId);
+
+  try {
+    await updateDoc(ref, { ...patch, lastUpdated: serverTimestamp() });
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to update fragrance:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+// Read a single user fragrance once
+export async function getUserFragrance(uid, fragranceId) {
+  const ref = doc(db, "users", uid, "fragrances", fragranceId);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return null;
+  return { id: snap.id, ...snap.data() };
 }

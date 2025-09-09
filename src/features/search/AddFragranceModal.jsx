@@ -15,9 +15,11 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
     loading,
   } = useFragranceActions(user.uid);
 
-  const handleTestClick = () => {
-    testFragrance(fragranceInfo);
-    navigate(`/dashboard/fragrance-test/${fragranceInfo.id}`)
+  const handleTestClick = async () => {
+    const result = await testFragrance(fragranceInfo);
+    console.log(result);
+    onClose();
+    navigate(`/dashboard/fragrances/${result.id}`);
   }
 
   return (

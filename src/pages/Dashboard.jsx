@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import SearchContainer from '../features/search/SearchContainer';
+import { Outlet } from 'react-router';
 
 function Dashboard() {
   const { user, logout } = useAuth();
