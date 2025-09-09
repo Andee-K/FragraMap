@@ -5,6 +5,7 @@ const FragranceCard = ({ fragranceInfo }) => {
     Name,
     Brand,
     ["Image URL"]: ImgURL,
+    ["Image Fallbacks"]: ImgBackup,
     Gender,
     Longevity,
     Sillage,
@@ -23,7 +24,14 @@ const FragranceCard = ({ fragranceInfo }) => {
       </div>
 
       <div className="img-container flex justify-center my-8">
-        <img src={ImgURL} alt={`${Name} by ${Brand} image`}></img>
+        <img
+          src={ImgURL}
+          alt={`${fragranceInfo.Name} by ${fragranceInfo.Brand} Image`}
+          onError={(e) => {
+            e.currentTarget.src =
+              ImgBackup?.[0] || "/default-image.jpg";
+          }}
+        />
       </div>
 
       <div className="main-accords-container">
@@ -91,6 +99,11 @@ const FragranceCard = ({ fragranceInfo }) => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="fragrance-longevity-container flex text-left">
+        <h4 className="w-1/2">Longevity: {Longevity}</h4>
+        <h4 className="w-1/2">Sillage: {Sillage}</h4>
       </div>
     </div>
   );
