@@ -1,11 +1,15 @@
 import React from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useUserFragrances } from "../hooks/useUserFragrances";
 import SearchBar from "../features/search/SearchBar";
 
-function Dashboard() {
+// Import the table components
+import { FragranceTable } from "../components/FragranceTable";
+export default function Dashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { fragrances, loading } = useUserFragrances(user.uid);
 
   const handleSearch = (query) => {
     if (query.trim()) {
@@ -22,10 +26,16 @@ function Dashboard() {
         Logout
       </button>
 
-      {/* Use SearchBar here */}
       <SearchBar onSearch={handleSearch} loading={false} />
+
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <FragranceTable title="Bookmarked" data={fragrances.bookmarked} />
+          <FragranceTable title="Testing" data={fragrances.testing} />
+        </>
+      )}
     </div>
   );
 }
-
-export default Dashboard;

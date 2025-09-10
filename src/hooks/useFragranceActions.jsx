@@ -3,7 +3,7 @@ import {
   addUserFragrance,
   updateUserFragrance,
   deleteUserFragrance,
-} from "../../services/fragranceService";
+} from "../services/fragranceService";
 import { Timestamp } from "firebase/firestore";
 
 /**

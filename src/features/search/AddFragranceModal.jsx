@@ -1,7 +1,7 @@
 import React from "react";
 import FragranceCard from "./FragranceCard";
 import Button from "../../components/Button";
-import { useFragranceActions } from "./useFragranceActions";
+import { useFragranceActions } from "../../hooks/useFragranceActions";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -13,21 +13,33 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
     user.uid
   );
 
+  const handleBookmarkClick = async () => {
+    try {
+      await bookmarkFragrance(fragranceInfo);
+      onClose();
+      alert("Fragrance bookmarked successfully!");
+    } catch (err) {
+      console.error("Failed to bookmark fragrance:", err);
+      alert("Something went wrong. Please try again.");
+    }
+  };
+
   const handleTestClick = async () => {
-    const result = await testFragrance(fragranceInfo);
-    console.log(result);
-    onClose();
-    navigate(`/dashboard/fragrances/${result.id}`);
+    try {
+      const result = await testFragrance(fragranceInfo);
+      onClose();
+      navigate(`/dashboard/fragrances/${result.id}`);
+    } catch (err) {
+      console.error("Failed to start test:", err);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   return (
     <div className="relative bg-white rounded-lg shadow-xl w-full max-w-lg p-6 overflow-y-auto max-h-[90vh]">
       <FragranceCard fragranceInfo={fragranceInfo} />
       <Button onClick={onClose}>Close</Button>
-      <Button
-        onClick={() => bookmarkFragrance(fragranceInfo)}
-        disabled={loading}
-      >
+      <Button onClick={handleBookmarkClick} disabled={loading}>
         Bookmark
       </Button>
       <Button onClick={handleTestClick} disabled={loading}>

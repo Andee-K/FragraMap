@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 // Auth & services
 import { useAuth } from "../context/AuthContext";
 import { getUserFragrance } from "../services/fragranceService";
-import { useFragranceActions } from "../features/search/useFragranceActions";
+import { useFragranceActions } from "../hooks/useFragranceActions";
 
 // UI components
 import Button from "../components/Button";
