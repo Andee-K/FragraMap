@@ -9,6 +9,7 @@ import Settings from "./pages/Settings";
 import FragranceTest from "./pages/FragranceTest";
 import ProtectedRoute from "./features/auth/ProtectedRoute";
 import Layout from "./components/Layout";
+import Search from "./pages/Search";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/dashboard/profile" element={<Profile />}></Route>
         <Route path="/dashboard/settings" element={<Settings />}></Route>
+        <Route path="/dashboard/search" element={<Search />}></Route>
         <Route
           path="/dashboard/fragrances/:fragranceId"
           element={<FragranceTest />}

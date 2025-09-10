@@ -1,10 +1,17 @@
-import React from 'react';
-import { useAuth } from '../context/AuthContext';
-import SearchContainer from '../features/search/SearchContainer';
-import { Outlet } from 'react-router';
+import React from "react";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import SearchBar from "../features/search/SearchBar";
 
 function Dashboard() {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSearch = (query) => {
+    if (query.trim()) {
+      navigate(`/dashboard/search?q=${encodeURIComponent(query)}`);
+    }
+  };
 
   return (
     <div className="dashboard-container">
@@ -14,7 +21,9 @@ function Dashboard() {
       <button onClick={logout} className="logout-btn">
         Logout
       </button>
-      <SearchContainer />
+
+      {/* Use SearchBar here */}
+      <SearchBar onSearch={handleSearch} loading={false} />
     </div>
   );
 }

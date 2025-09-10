@@ -3,9 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-// Firebase
-import { Timestamp } from "firebase/firestore";
-
 // Auth & services
 import { useAuth } from "../context/AuthContext";
 import { getUserFragrance } from "../services/fragranceService";
@@ -25,7 +22,7 @@ function FragranceTest() {
   const { fragranceId } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { updateFragrance } = useFragranceActions(user.uid);
+  const { updateFragrance, deleteFragrance } = useFragranceActions(user.uid);
 
   const [userFragranceData, setUserFragranceData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -33,16 +30,13 @@ function FragranceTest() {
   // Fetch data on mount
   useEffect(() => {
     async function fetchData() {
-      if (!user?.uid || !fragranceId) return;
-
       try {
         const data = await getUserFragrance(user.uid, fragranceId);
         console.log("Fetched fragrance data:", data);
 
-        // ensure a date exists (convert Firestore timestamp if needed)
         setUserFragranceData({
           ...data,
-          testDate: data?.testDate
+          testDate: data.testDate
             ? dayjs(data.testDate.toDate()) // convert Firestore Timestamp → JS Date → dayjs
             : null,
         });
@@ -63,10 +57,8 @@ function FragranceTest() {
       [field]: value,
     }));
   };
-  
-  const handleSubmit = async () => {
-    if (!userFragranceData) return;
 
+  const handleSubmit = async () => {
     const result = await updateFragrance(fragranceId, userFragranceData);
 
     if (result?.success) {
@@ -74,6 +66,17 @@ function FragranceTest() {
       navigate("/dashboard");
     } else {
       alert("Failed to update fragrance: " + result?.error);
+    }
+  };
+
+  const handleDelete = async () => {
+    const result = await deleteFragrance(userFragranceData.id);
+
+    if (result?.success) {
+      alert("Fragrance deleted!");
+      navigate("/dashboard");
+    } else {
+      alert("Failed to delete fragrance: " + result?.error);
     }
   };
 
@@ -92,7 +95,7 @@ function FragranceTest() {
         <div className="fragrance-date">
           <DatePicker
             label="Test Date"
-            value={userFragranceData.testDate || dayjs()}
+            value={userFragranceData.testDate}
             onChange={(newValue) => handleChange("testDate", newValue)}
           />
         </div>
@@ -120,8 +123,9 @@ function FragranceTest() {
 
         {/* Actions */}
         <div className="actions">
-          <Button>Cancel</Button>
+          <Button onClick={() => navigate(-1)}>Cancel</Button>
           <Button onClick={handleSubmit}>Submit</Button>
+          <Button onClick={handleDelete}>Delete</Button>
         </div>
       </div>
     </LocalizationProvider>

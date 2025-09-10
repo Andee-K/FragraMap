@@ -1,9 +1,10 @@
 import { useCallback, useState } from "react";
 import {
   addUserFragrance,
-  getUserFragrance as getUserFragranceService,
   updateUserFragrance,
+  deleteUserFragrance,
 } from "../../services/fragranceService";
+import { Timestamp } from "firebase/firestore";
 
 /**
  * Orchestrates user fragrance actions with consistent loading/error handling.
@@ -49,11 +50,20 @@ export function useFragranceActions(uid) {
           personalNotes: userFragranceData.personalNotes,
           status: userFragranceData.status,
           testDate: userFragranceData.testDate
-            ? Timestamp.fromDate(userFragranceData.testDate.toDate())
+            ? Timestamp.fromDate(userFragranceData.testDate.toDate()) // dayjs → JS Date → Firestore Timestamp
             : null,
         };
 
         const result = await updateUserFragrance(uid, fragranceId, patch);
+        return result;
+      }),
+    [run, uid]
+  );
+
+  const handleDeleteFragrance = useCallback(
+    (fragranceId) =>
+      run(async () => {
+        const result = await deleteUserFragrance(uid, fragranceId);
         return result;
       }),
     [run, uid]
@@ -67,5 +77,6 @@ export function useFragranceActions(uid) {
     testFragrance: (fragranceInfo) =>
       handleAddFragrance(fragranceInfo, "testing"),
     updateFragrance: handleUpdateFragrance,
+    deleteFragrance: handleDeleteFragrance,
   };
 }

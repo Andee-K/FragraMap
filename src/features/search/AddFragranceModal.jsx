@@ -9,18 +9,16 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const {
-    bookmarkFragrance,
-    testFragrance,
-    loading,
-  } = useFragranceActions(user.uid);
+  const { bookmarkFragrance, testFragrance, loading } = useFragranceActions(
+    user.uid
+  );
 
   const handleTestClick = async () => {
     const result = await testFragrance(fragranceInfo);
     console.log(result);
     onClose();
     navigate(`/dashboard/fragrances/${result.id}`);
-  }
+  };
 
   return (
     <div className="relative bg-white rounded-lg shadow-xl w-full max-w-lg p-6 overflow-y-auto max-h-[90vh]">
@@ -32,10 +30,7 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
       >
         Bookmark
       </Button>
-      <Button
-        onClick={handleTestClick}
-        disabled={loading}
-      >
+      <Button onClick={handleTestClick} disabled={loading}>
         Start Test
       </Button>
     </div>

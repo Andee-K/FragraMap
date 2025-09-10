@@ -4,10 +4,11 @@ import {
   runTransaction,
   serverTimestamp,
   updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { db } from "../firebase/config.js";
 
-// Helper function to create a fragrance ID
+// Helper function to create a fragrance ID (for adding new fragrances)
 export function toFragranceId(fragrance_name, fragrance_brand) {
   const brand = fragrance_brand
     ?.toLowerCase()
@@ -88,7 +89,29 @@ export async function updateUserFragrance(uid, fragranceId, patch) {
   }
 }
 
-// Read a single user fragrance once
+// Delete a single user fragrance document
+export async function deleteUserFragrance(uid, fragranceId) {
+  const ref = doc(db, "users", uid, "fragrances", fragranceId);
+  try {
+    const snap = await getDoc(ref);
+    if (!snap.exists()) {
+      console.warn("[deleteUserFragrance] doc not found", { path: ref.path });
+      return { success: true, deleted: false };
+    }
+    await deleteDoc(ref);
+    return { success: true, deleted: true };
+  } catch (error) {
+    console.error(
+      "[deleteUserFragrance] failed",
+      error?.code,
+      error?.message,
+      { path: ref.path }
+    );
+    return { success: false, deleted: false, error: error.message };
+  }
+}
+
+// Reads a single user fragrance once
 export async function getUserFragrance(uid, fragranceId) {
   const ref = doc(db, "users", uid, "fragrances", fragranceId);
   const snap = await getDoc(ref);
