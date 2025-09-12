@@ -11,81 +11,118 @@ import {
   TableRow,
   Typography,
   Paper,
-  Button,
 } from "@mui/material";
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUp from "@mui/icons-material/KeyboardArrowUp";
-
-// Utility to format Firestore timestamps
-export function formatDate(timestamp) {
-  if (!timestamp || !timestamp.seconds) return "-";
-  return new Date(timestamp.seconds * 1000).toLocaleDateString();
-}
+import Button from "./Button";
+import { useNavigate } from "react-router-dom";
+import { formatDate } from "../services/fragranceService";
+import { useFragranceActions } from "../hooks/useFragranceActions";
+import { useAuth } from "../context/AuthContext";
 
 // Row component for each fragrance
 export function FragranceRow({ fragrance }) {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { testFragrance, deleteFragrance, finishFragrance } =
+    useFragranceActions(user.uid);
+
+  const handleClick = (id, action) => {
+    if (action === "details") {
+      navigate(`/dashboard/fragrance/${id}`);
+    } else if (action === "delete") {
+      deleteFragrance(id);
+    } else if (action === "edit") {
+      navigate(`/dashboard/test/${id}`);
+    } else if (action === "finish") {
+      finishFragrance(id);
+    } else if (action === "test") {
+      testFragrance(fragrance);
+      navigate(`/dashboard/test/${id}`);
+    }
+  };
 
   return (
     <>
+      {/* Main row */}
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
-          </IconButton>
+          {fragrance.status === "testing" && (
+            <IconButton
+              aria-label="expand row"
+              size="small"
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+            </IconButton>
+          )}
         </TableCell>
         <TableCell component="th" scope="row">
           {fragrance.name}
         </TableCell>
         <TableCell>{fragrance.brand}</TableCell>
-        <TableCell>{formatDate(fragrance.createdAt)}</TableCell>
-      </TableRow>
-
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={4}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="subtitle1" gutterBottom>
-                Details
-              </Typography>
-              <Table size="small" aria-label="details">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Test Date</TableCell>
-                    <TableCell>Rating</TableCell>
-                    <TableCell>Notes</TableCell>
-                    <TableCell>Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>{formatDate(fragrance.testDate)}</TableCell>
-                    <TableCell>{fragrance.rating ?? "-"}</TableCell>
-                    <TableCell>{fragrance.personalNotes || "-"}</TableCell>
-                    <TableCell>
-                      <Button size="small" variant="outlined" color="primary">
-                        Edit
-                      </Button>
-                      <Button
-                        size="small"
-                        variant="outlined"
-                        color="error"
-                        sx={{ ml: 1 }}
-                      >
-                        Delete
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
+        <TableCell>{formatDate(fragrance.lastUpdated)}</TableCell>
+        <TableCell>
+          <Button onClick={() => handleClick(fragrance.id, "details")}>
+            See Details
+          </Button>
+          <Button onClick={() => handleClick(fragrance.id, "delete")}>
+            Delete
+          </Button>
+          {fragrance.status === "bookmarked" && (
+            <Button onClick={() => handleClick(fragrance.id, "test")}>
+              Start Testing
+            </Button>
+          )}
         </TableCell>
       </TableRow>
+
+      {/* Expanded details row */}
+      {fragrance.status === "testing" && (
+        <TableRow>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={4}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box sx={{ margin: 1 }}>
+                <Typography variant="subtitle1" gutterBottom>
+                  Test Details
+                </Typography>
+                <Table size="small" aria-label="details">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Test Date</TableCell>
+                      <TableCell>Rating</TableCell>
+                      <TableCell>Notes</TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>{formatDate(fragrance.testDate)}</TableCell>
+                      <TableCell>
+                        {fragrance.rating ? `${fragrance.rating}/5` : "-"}
+                      </TableCell>
+                      <TableCell>{fragrance.personalNotes || "-"}</TableCell>
+                      <TableCell>
+                        <Button
+                          onClick={() => handleClick(fragrance.id, "edit")}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          onClick={() => handleClick(fragrance.id, "finish")}
+                        >
+                          Finish Testing
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      )}
     </>
   );
 }
@@ -104,7 +141,8 @@ export function FragranceTable({ title, data }) {
               <TableCell />
               <TableCell>Name</TableCell>
               <TableCell>Brand</TableCell>
-              <TableCell>Date</TableCell>
+              <TableCell>Date Added</TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

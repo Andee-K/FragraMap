@@ -13,6 +13,7 @@ const FragranceCard = ({ fragranceInfo }) => {
     Notes,
   } = fragranceInfo;
 
+  console.log(fragranceInfo);
   return (
     <div className="fragrance-card-container max-w-md border-2 rounded-md p-8">
       <div className="fragrance-header flex justify-between">
@@ -37,7 +38,7 @@ const FragranceCard = ({ fragranceInfo }) => {
       <div className="main-accords-container">
         <h4>Main Accords</h4>
         <ul>
-          {Object.entries(Accords).map(([accord, percentage]) => (
+          {Object.entries(Accords || {}).map(([accord, percentage]) => (
             <li key={accord}>
               <div className="flex justify-between items-center mb-1">
                 <span className="text-sm font-medium">{accord}</span>

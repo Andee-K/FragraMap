@@ -10,7 +10,7 @@ import FragranceTest from "./pages/FragranceTest";
 import ProtectedRoute from "./features/auth/ProtectedRoute";
 import Layout from "./components/Layout";
 import Search from "./pages/Search";
-
+import FragranceInfo from "./pages/FragranceInfo";
 function App() {
   return (
     <Routes>
@@ -34,9 +34,10 @@ function App() {
         <Route path="/dashboard/settings" element={<Settings />}></Route>
         <Route path="/dashboard/search" element={<Search />}></Route>
         <Route
-          path="/dashboard/fragrances/:fragranceId"
+          path="/dashboard/test/:fragranceId"
           element={<FragranceTest />}
         ></Route>
+        <Route path="/dashboard/fragrance/:fragranceId" element={<FragranceInfo />}></Route>
 
         
       </Route>

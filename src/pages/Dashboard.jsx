@@ -32,8 +32,8 @@ export default function Dashboard() {
         <p>Loading...</p>
       ) : (
         <>
-          <FragranceTable title="Bookmarked" data={fragrances.bookmarked} />
           <FragranceTable title="Testing" data={fragrances.testing} />
+          <FragranceTable title="Bookmarked" data={fragrances.bookmarked} />
         </>
       )}
     </div>

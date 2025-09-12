@@ -3,18 +3,22 @@ import {
   addUserFragrance,
   updateUserFragrance,
   deleteUserFragrance,
+  getUserFragrance, // optional in case you need it elsewhere
+  toFragranceId
 } from "../services/fragranceService";
 import { Timestamp } from "firebase/firestore";
 
 /**
- * Orchestrates user fragrance actions with consistent loading/error handling.
- * Keep Firestore calls in the service layer.
+ * useFragranceActions encapsulates async calls for the current user.
+ * - addFragrance: pure add (no category)
+ * - updateFragrance: patch fields on an existing fragrance
+ * - deleteFragrance: remove from user's collection
+ * - bookmarkFragrance / testFragrance: ensure existence, then set status
  */
 export function useFragranceActions(uid) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // generic function to wrap async calls with loading/error handling
   const run = useCallback(
     async (fn) => {
       if (!uid) throw new Error("User not authenticated");
@@ -34,37 +38,82 @@ export function useFragranceActions(uid) {
   );
 
   const handleAddFragrance = useCallback(
-    (fragranceInfo, status) =>
-      run(async () => {
-        const result = await addUserFragrance(uid, fragranceInfo, status);
-        return result; // { id, created: true }
-      }),
+    (fragranceInfo) => run(() => addUserFragrance(uid, fragranceInfo)),
     [run, uid]
   );
 
+  // Accepts a patch object. Converts dayjs->Timestamp for testDate if provided.
   const handleUpdateFragrance = useCallback(
-    (fragranceId, userFragranceData) =>
-      run(async () => {
-        const patch = {
-          rating: userFragranceData.rating,
-          personalNotes: userFragranceData.personalNotes,
-          status: userFragranceData.status,
-          testDate: userFragranceData.testDate
-            ? Timestamp.fromDate(userFragranceData.testDate.toDate()) // dayjs → JS Date → Firestore Timestamp
-            : null,
-        };
-
-        const result = await updateUserFragrance(uid, fragranceId, patch);
-        return result;
-      }),
+    (fragranceId, patch) =>
+      run(() =>
+        updateUserFragrance(uid, fragranceId, {
+          ...patch,
+          testDate: patch?.testDate
+            ? Timestamp.fromDate(patch.testDate.toDate())
+            : patch?.testDate === null
+            ? null
+            : undefined,
+        })
+      ),
     [run, uid]
   );
 
   const handleDeleteFragrance = useCallback(
-    (fragranceId) =>
+    (fragranceId) => run(() => deleteUserFragrance(uid, fragranceId)),
+    [run, uid]
+  );
+
+
+  // Ensure exists, then set status="bookmarked"
+  const bookmarkFragrance = useCallback(
+    async (fragranceInfo) =>
       run(async () => {
-        const result = await deleteUserFragrance(uid, fragranceId);
-        return result;
+        const fragranceId = fragranceInfo.id || toFragranceId(fragranceInfo.Name, fragranceInfo.Brand);
+        console.log(fragranceInfo);
+        console.log("bookmarkFragrance", { fragranceId });
+
+        // Ensure the doc exists (transaction will be a no-op if it already does)
+        const ensure = await addUserFragrance(uid, fragranceInfo);
+        const update = await updateUserFragrance(uid, fragranceId, {
+          status: "bookmarked",
+        });
+
+        return { ...update, id: fragranceId, ensuredCreated: ensure.created };
+      }),
+    [run, uid]
+  );
+
+  // Ensure exists, then set status="testing" and testDate=now
+  const testFragrance = useCallback(
+    async (fragranceInfo) =>
+      run(async () => {
+        const fragranceId = fragranceInfo.id || toFragranceId(fragranceInfo.Name, fragranceInfo.Brand);
+
+        // Ensure the doc exists
+        const ensure = await addUserFragrance(uid, fragranceInfo);
+        const update = await updateUserFragrance(uid, fragranceId, {
+          status: "testing",
+          testDate: Timestamp.now(),
+        });
+
+        return { ...update, id: fragranceId, ensuredCreated: ensure.created };
+      }),
+    [run, uid]
+  );
+
+    // Ensure exists, then set status="testing" and testDate=now
+  const finishFragrance = useCallback(
+    async (fragranceId) =>
+      run(async () => {
+        console.log(fragranceId);
+
+        // Ensure the doc exists
+        const update = await updateUserFragrance(uid, fragranceId, {
+          status: "finished",
+          testDate: Timestamp.now(),
+        });
+
+        return { ...update, id: fragranceId };
       }),
     [run, uid]
   );
@@ -72,11 +121,11 @@ export function useFragranceActions(uid) {
   return {
     loading,
     error,
-    bookmarkFragrance: (fragranceInfo) =>
-      handleAddFragrance(fragranceInfo, "bookmarked"),
-    testFragrance: (fragranceInfo) =>
-      handleAddFragrance(fragranceInfo, "testing"),
+    addFragrance: handleAddFragrance,
     updateFragrance: handleUpdateFragrance,
     deleteFragrance: handleDeleteFragrance,
+    bookmarkFragrance,
+    testFragrance,
+    finishFragrance
   };
 }
