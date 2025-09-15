@@ -173,3 +173,23 @@ export function formatDate(timestamp) {
     ? dayjs(timestamp).format("MMM D, YYYY")
     : "-";
 }
+
+// Map longevity % to scale 1–5
+export function getLongevityScale(value) {
+  const num = value.slice(0, -1); // remove trailing %
+  if (num <= 20) return { rating: 1, label: "Very Weak (1–2 hrs)" };
+  if (num <= 40) return { rating: 2, label: "Weak (2–4 hrs)" };
+  if (num <= 60) return { rating: 3, label: "Moderate (4–6 hrs)" };
+  if (num <= 80) return { rating: 4, label: "Long Lasting (6–10 hrs)" };
+  return { rating: 5, label: "Beast Mode (10+ hrs)" };
+}
+
+// Map sillage % to scale 1–5
+export function getSillageScale(value) {
+  const num = value.slice(0, -1); // remove trailing %
+  if (num <= 20) return { rating: 1, label: "Very Intimate (only you can smell it)" };
+  if (num <= 40) return { rating: 2, label: "Close (arm’s length)" };
+  if (num <= 60) return { rating: 3, label: "Moderate (a few feet)" };
+  if (num <= 80) return { rating: 4, label: "Strong (fills a room)" };
+  return { rating: 5, label: "Beast Mode (leaves a scent trail)" };
+}

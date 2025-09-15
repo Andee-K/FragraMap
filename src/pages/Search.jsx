@@ -1,69 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { httpsCallable } from "firebase/functions";
 import SearchBar from "../features/search/SearchBar";
 import FragrancePreviewCard from "../features/search/FragrancePreviewCard";
 import AddFragranceModal from "../features/search/AddFragranceModal";
-import { functions } from "../firebase/config";
+import { useFragranceSearch } from "../hooks/useFragranceSearch";
 
 function Search() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentQuery = searchParams.get("q") || "";
-
-  const [searchResults, setSearchResults] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [fragranceModal, setFragranceModal] = useState(null);
 
-  const cacheKey = `fragrance-search-${currentQuery.toLowerCase()}`;
+  const currentQuery = searchParams.get("q") || "";
 
-  useEffect(() => {
-    if (!currentQuery) {
-      setSearchResults([]);
-      return;
-    }
-
-    const cachedResults = localStorage.getItem(cacheKey);
-    if (cachedResults) {
-      try {
-        setSearchResults(JSON.parse(cachedResults));
-        return;
-      } catch {
-        localStorage.removeItem(cacheKey);
-      }
-    }
-
-    const fetchResults = async () => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        // Call Firebase Function
-        const searchFragrance = httpsCallable(functions, "searchFragrance");
-        const response = await searchFragrance({ q: currentQuery });
-
-        const results = response.data.results;
-        console.log(results);
-
-        localStorage.setItem(cacheKey, JSON.stringify(results));
-        setSearchResults(results);
-      } catch (err) {
-        console.error("Error calling searchFragrance:", err);
-        setError("Failed to search fragrances. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchResults();
-  }, [currentQuery]);
+  const { searchResults, loading, error } = useFragranceSearch(currentQuery);
 
   const handleSearch = (query) => {
     setSearchParams({ q: query });
   };
 
   return (
-    <div>
+    <div className="p-6 md:p-10">
+      <h1 className="text-2xl font-bold">Search for a Fragrance</h1>
       <SearchBar
         onSearch={handleSearch}
         loading={loading}
@@ -72,9 +28,9 @@ function Search() {
 
       {error && <p className="text-red-500">{error}</p>}
 
-      <h2 className="mt-4 mb-2 text-lg font-semibold">Search Results:</h2>
+      <h2 className="text-xl font-semibold mb-4">Search Results:</h2>
       {searchResults.length > 0 && (
-        <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
+        <ul className="grid grid-cols-1 auto-rows-auto gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {searchResults.map((fragrance) => (
             <li key={`${fragrance.Name}-${fragrance.Brand}`}>
               <FragrancePreviewCard

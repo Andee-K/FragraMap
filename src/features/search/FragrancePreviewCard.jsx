@@ -3,21 +3,23 @@ import Button from "../../components/Button";
 
 const FragrancePreviewCard = ({ fragranceInfo, onAddClick }) => {
   return (
-    <div className="fragrance-preview-container flex flex-col">
-      <h3 className="fragrance-name text-xl font-medium text-left">
+    <div className="flex flex-col p-6 px-8 border-primary-100 border rounded-lg shadow-sm max-w-[400px] m-auto">
+      <h2 className="text-xl font-semibold text-left">
         {fragranceInfo.Name}
-      </h3>
-      <h4 className="fragrance-brand text-sm text-left">
+      </h2>
+      <h3 className="fragrance-brand text-md text-left font-medium">
         {fragranceInfo.Brand}
-      </h4>
-      <img
-        src={fragranceInfo["Image URL"]}
-        alt={`${fragranceInfo.Name} by ${fragranceInfo.Brand} Image`}
-        onError={(e) => {
-          e.currentTarget.src =
-            fragranceInfo["Image Fallbacks"]?.[0] || "/default-image.jpg";
-        }}
-      />
+      </h3>
+      <div className="my-6">
+        <img
+          src={
+            fragranceInfo["Image URL"]
+          }
+          alt={`${fragranceInfo.Name} by ${fragranceInfo.Brand} Image`}
+          className="w-full object-contain rounded-md"
+          onError={(e) => e.currentTarget.src = fragranceInfo["Image Fallbacks"][0]}
+        />
+      </div>
 
       <Button onClick={() => onAddClick(fragranceInfo)}>
         Add to Collection

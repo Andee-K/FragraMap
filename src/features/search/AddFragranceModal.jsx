@@ -42,7 +42,7 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
   };
 
   return (
-    <div className="relative bg-white rounded-lg shadow-xl w-full max-w-lg p-6 overflow-y-auto max-h-[90vh]">
+    <div className="relative bg-neutral-50 rounded-lg shadow-xl w-full max-w-lg p-6 overflow-y-auto max-h-[90vh]">
       <FragranceCard fragranceInfo={fragranceInfo} />
 
       {error ? (

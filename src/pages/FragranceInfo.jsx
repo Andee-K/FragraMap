@@ -12,7 +12,6 @@ export default function FragranceInfo() {
     const fetchFragrance = async () => {
       try {
         const data = await getGlobalFragrance(fragranceId);
-        console.log("Fetched global fragrance data:", data);
         setFragrance(data);
       } catch (err) {
         console.error("Error fetching fragrance:", err);
