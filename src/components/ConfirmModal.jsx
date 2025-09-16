@@ -1,36 +1,53 @@
-import React from "react";
-
-const ConfirmModal = ({ isOpen, onClose, onConfirm, fragranceName }) => {
-  if (!isOpen) return null;
+const ConfirmModal = ({ onClose, onConfirm, fragranceId, type }) => {
+  const isDelete = type === "delete";
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40">
-      <div className="bg-white rounded-2xl shadow-lg w-full max-w-md p-6">
+      <div className="bg-neutral-cool-50 rounded-xl shadow-xl w-full max-w-md p-8">
         {/* Title */}
-        <h2 className="text-xl font-bold text-gray-900 mb-2">
-          Delete Fragrance
+        <h2 className="text-xl font-bold text-neutral-cool-900 mb-2">
+          {isDelete ? "Delete Fragrance" : "Finish Fragrance"}
         </h2>
 
         {/* Message */}
-        <p className="text-gray-600 mb-6">
-          Are you sure you want to delete{" "}
-          <span className="font-semibold">{fragranceName}</span>? <br />
-          This action cannot be undone.
+        <p className="text-neutral-cool-800 mb-6">
+          {isDelete ? (
+            <>
+              Are you sure you want to delete{" "}
+              <span className="font-semibold text-neutral-cool-900">
+                {fragranceId}
+              </span>
+              ? This action cannot be undone.
+            </>
+          ) : (
+            <>
+              Mark{" "}
+              <span className="font-semibold  text-neutral-cool-900">
+                {fragranceId}
+              </span>{" "}
+              as finished?
+            </>
+          )}
         </p>
 
         {/* Actions */}
         <div className="flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+            className="px-4 py-2 font-semibold text-neutral-cool-700 hover:cursor-pointer hover:underline transition"
           >
             Cancel
           </button>
+
           <button
             onClick={onConfirm}
-            className="px-4 py-2 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-700 transition"
+            className={`px-4 py-2 rounded-lg text-white font-semibold hover:cursor-pointer transition ${
+              isDelete
+                ? "bg-red-700 hover:bg-red-800"
+                : "bg-green-700 hover:bg-green-800"
+            }`}
           >
-            Delete
+            {isDelete ? "Delete" : "Finish"}
           </button>
         </div>
       </div>

@@ -26,23 +26,22 @@ import { useFragranceActions } from "../hooks/useFragranceActions";
 import { useAuth } from "../context/AuthContext";
 
 // Row component for each fragrance
-export function FragranceRow({ fragrance }) {
+export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { testFragrance, deleteFragrance, finishFragrance } =
+  const { testFragrance } =
     useFragranceActions(user.uid);
 
   const handleClick = (id, action) => {
     if (action === "details") {
       navigate(`/dashboard/fragrance/${id}`);
     } else if (action === "delete") {
-      // setIsConfirmOpen(true);
-      // deleteFragrance(id);
+      onRequestDelete(id);
     } else if (action === "edit") {
       navigate(`/dashboard/test/${id}`);
     } else if (action === "finish") {
-      finishFragrance(id);
+      onRequestFinish(id)
     } else if (action === "test") {
       testFragrance(fragrance);
       navigate(`/dashboard/test/${id}`);
@@ -82,10 +81,10 @@ export function FragranceRow({ fragrance }) {
               className="hover:cursor-pointer hover:scale-110 transition-transform"
               onClick={() => handleClick(fragrance.id, "delete")}
             >
-              <DeleteIcon sx={{ color: "var(--color-danger)" }} />
+              <DeleteIcon sx={{ color: "var(--color-red-700)" }} />
             </button>
             <button
-              className="flex items-center gap-2 font-semibold text-nowrap rounded-md p-2 shadow-sm border-primary-50 hover:cursor-pointer hover:scale-102 transition-transform"
+              className="flex items-center gap-2 font-semibold text-nowrap rounded-md p-2 shadow-xs border border-primary-100 hover:cursor-pointer hover:scale-102 transition-transform"
               onClick={() => handleClick(fragrance.id, "details")}
             >
               <InfoIcon
@@ -202,7 +201,7 @@ export function FragranceRow({ fragrance }) {
 }
 
 // FragranceTable component
-export function FragranceTable({ title, data }) {
+export function FragranceTable({ title, data, onRequestDelete, onRequestFinish }) {
   return (
     <Box>
       <TableContainer
@@ -229,7 +228,7 @@ export function FragranceTable({ title, data }) {
           </TableHead>
           <TableBody>
             {data.map((f) => (
-              <FragranceRow key={f.id} fragrance={f} />
+              <FragranceRow key={f.id} fragrance={f} onRequestDelete={onRequestDelete} onRequestFinish={onRequestFinish}/>
             ))}
           </TableBody>
         </Table>
