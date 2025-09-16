@@ -9,7 +9,7 @@ export default function Dashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { fragrances, loading } = useUserFragrances(user.uid);
-  const [activeTab, setActiveTab] = useState("testing"); // for mobile toggle
+  const [activeTab, setActiveTab] = useState("testing");
 
   const handleSearch = (query) => {
     if (query.trim()) {
@@ -18,7 +18,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="dashboard-container p-4 py-8">
+    <div className="dashboard-container p-5 sm:p-8 max-break-w:px-0">
       <h1 className="text-2xl">
         Welcome, <span className="font-medium">{user.displayName}!</span>
       </h1>
@@ -30,31 +30,44 @@ export default function Dashboard() {
         <p>Loading...</p>
       ) : (
         <>
-          {/* Mobile: Tabs */}
-          <div className="block xl:hidden">
-            <div className="flex border-b mb-4">
-              {/* Testing Tab */}
-              <button
-                className={`flex-1 py-4 text-center hover:cursor-pointer ${
-                  activeTab === "testing"
-                    ? "border-b-2 border-black font-bold"
-                    : ""
-                }`}
-                onClick={() => setActiveTab("testing")}
-              >
-                Testing
-              </button>
-              {/* Bookmarked Tab */}
-              <button
-                className={`flex-1 py-4 text-center hover:cursor-pointer ${
-                  activeTab === "bookmarked"
-                    ? "border-b-2 border-black font-bold"
-                    : ""
-                }`}
-                onClick={() => setActiveTab("bookmarked")}
-              >
-                Bookmarked
-              </button>
+          {/* Tabs only */}
+          <div>
+            {/* Tabs with sliding underline */}
+            <div className="relative">
+              <div className="flex border-b mb-4 relative">
+                {/* Buttons */}
+                <button
+                  className={`flex-1 py-4 text-center hover:cursor-pointer ${
+                    activeTab === "testing"
+                      ? "font-bold text-primary-900"
+                      : "font-medium"
+                  }`}
+                  onClick={() => setActiveTab("testing")}
+                >
+                  Testing
+                </button>
+                <button
+                  className={`flex-1 py-4 text-center hover:cursor-pointer ${
+                    activeTab === "bookmarked"
+                      ? "font-bold text-primary-900"
+                      : "font-medium"
+                  }`}
+                  onClick={() => setActiveTab("bookmarked")}
+                >
+                  Bookmarked
+                </button>
+
+                {/* Sliding underline */}
+                <span
+                  className={`absolute bottom-0 left-0 h-[3px] w-1/2 bg-primary-900 transition-transform duration-300 ease-in-out`}
+                  style={{
+                    transform:
+                      activeTab === "testing"
+                        ? "translateX(0%)"
+                        : "translateX(100%)",
+                  }}
+                />
+              </div>
             </div>
 
             {activeTab === "testing" && (
@@ -63,16 +76,6 @@ export default function Dashboard() {
             {activeTab === "bookmarked" && (
               <FragranceTable title="Bookmarked" data={fragrances.bookmarked} />
             )}
-          </div>
-
-          {/* Desktop: Side by side */}
-          <div className="hidden xl:flex gap-4">
-            <div className="flex-1">
-              <FragranceTable title="Testing" data={fragrances.testing} />
-            </div>
-            <div className="flex-1">
-              <FragranceTable title="Bookmarked" data={fragrances.bookmarked} />
-            </div>
           </div>
         </>
       )}
