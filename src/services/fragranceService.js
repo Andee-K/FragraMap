@@ -36,7 +36,6 @@ export async function addUserFragrance(uid, fragranceInfo) {
   const brand = fragranceInfo.Brand || fragranceInfo.brand;
   const name = fragranceInfo.Name || fragranceInfo.name;
 
-  if (!uid) throw new Error("User not authenticated");
   if (!brand || !name) {
     throw new Error("Fragrance must include Brand and Name (or brand/name)");
   }
@@ -52,11 +51,32 @@ export async function addUserFragrance(uid, fragranceInfo) {
     ]);
 
     if (!globalSnap.exists()) {
-      // Keep global doc minimal and consistent
+      // Create global if missing
       tx.set(globalRef, {
         ...fragranceInfo,
         createdAt: serverTimestamp(),
+        lastUpdated: serverTimestamp(),
       });
+    } else {
+      // ------------------------- TEST FOR LATER WHEN API DATA IS UPDATED ------------------------- //
+      // Update only if API data has changed
+      const currentData = globalSnap.data();
+      const updates = {};
+
+      // Compare only keys that changed (name, brand, accords, etc.)
+      for (const [key, value] of Object.entries(fragranceInfo)) {
+        if (
+          value !== undefined &&
+          JSON.stringify(currentData[key]) !== JSON.stringify(value)
+        ) {
+          updates[key] = value;
+        }
+      }
+
+      if (Object.keys(updates).length > 0) {
+        updates.lastUpdated = serverTimestamp();
+        tx.update(globalRef, updates);
+      }
     }
 
     if (userSnap.exists()) {
@@ -64,6 +84,7 @@ export async function addUserFragrance(uid, fragranceInfo) {
       return { success: true, id: fragranceId, created: false };
     }
 
+    // Create user fragrance doc if new
     const baseUserDoc = {
       globalRef: globalRef.path,
       name,
@@ -187,7 +208,8 @@ export function getLongevityScale(value) {
 // Map sillage % to scale 1–5
 export function getSillageScale(value) {
   const num = value.slice(0, -1); // remove trailing %
-  if (num <= 20) return { rating: 1, label: "Very Intimate (only you can smell it)" };
+  if (num <= 20)
+    return { rating: 1, label: "Very Intimate (only you can smell it)" };
   if (num <= 40) return { rating: 2, label: "Close (arm’s length)" };
   if (num <= 60) return { rating: 3, label: "Moderate (a few feet)" };
   if (num <= 80) return { rating: 4, label: "Strong (fills a room)" };

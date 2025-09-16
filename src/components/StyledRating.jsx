@@ -21,6 +21,7 @@ const StyledRating = ({
   emptyIcon,
   readOnly = false,
   onChange,
+  size = "medium"
 }) => {
   return (
     <RatingIcon
@@ -30,6 +31,7 @@ const StyledRating = ({
       icon={icon}
       emptyIcon={emptyIcon}
       onChange={onChange}
+      size={size}
     />
   );
 };

@@ -21,7 +21,6 @@ export function useFragranceActions(uid) {
 
   const run = useCallback(
     async (fn) => {
-      if (!uid) throw new Error("User not authenticated");
       setLoading(true);
       setError(null);
       try {

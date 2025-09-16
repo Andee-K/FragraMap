@@ -8,7 +8,7 @@ import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import CloudQueueIcon from "@mui/icons-material/CloudQueue";
 import CloudIcon from "@mui/icons-material/Cloud";
 import StyledRating from "../../components/StyledRating";
-
+import { getAccordColor, getNoteColor, getGenderColor } from "../../services/colors";
 const FragranceCard = ({ fragranceInfo }) => {
   const {
     Name,
@@ -18,12 +18,14 @@ const FragranceCard = ({ fragranceInfo }) => {
     Gender,
     Longevity,
     Sillage,
-    ["Main Accords Percentage"]: Accords,
+    ["Main Accords"]: Accords,
+    ["Main Accords Percentage"]: AccordsPercentage,
     Notes,
   } = fragranceInfo;
 
   const longevity = getLongevityScale(Longevity);
   const sillage = getSillageScale(Sillage);
+  const genderColor = getGenderColor(Gender)
 
   return (
     <div className="fragrance-card-container flex flex-col gap-8 max-w-md rounded-md p-2 m-auto sm:p-4">
@@ -32,7 +34,11 @@ const FragranceCard = ({ fragranceInfo }) => {
           <h3 className="fragrance-name text-xl font-semibold">{Name}</h3>
           <h4 className="fragrance-brand text-lg font-medium">{Brand}</h4>
         </div>
-        <div className="header-right tag self-start">{Gender}</div>
+        <div
+          className={`header-right tag self-start ${genderColor}`}
+        >
+          {Gender}
+        </div>
       </div>
 
       <div className="img-container flex justify-center">
@@ -46,64 +52,79 @@ const FragranceCard = ({ fragranceInfo }) => {
 
       <div className="main-accords-container">
         <h4 className="text-lg font-semibold mb-2">Main Accords</h4>
-        <ul className="flex flex-col gap-3">
-          {Object.entries(Accords || {}).map(([accord, percentage]) => (
-            <li key={accord}>
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-semibold">{accord}</span>
-                <span className="text-xs font-bold">{percentage}</span>
-              </div>
-              <div className="flex w-full h-4 overflow-hidden text-xs font-medium rounded-full flex-start bg-blue-gray-50">
-                <div
-                  className={
-                    "flex items-center justify-center h-full overflow-hidden text-white break-all bg-gray-900 rounded-full"
-                  }
-                  style={{ width: percentage }}
-                ></div>
-              </div>
-            </li>
-          ))}
+        <ul className="flex flex-col gap-5">
+          {Accords.map((accord) => {
+            const percentage = AccordsPercentage[accord];
+            const color = getAccordColor(accord);
+
+            return (
+              <li key={accord}>
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-sm font-semibold">{accord}</span>
+                  <span className="text-sm font-bold">{percentage}</span>{" "}
+                  {/* Changed `width` to `percentage` here */}
+                </div>
+                <div className="flex w-full h-4 overflow-hidden text-xs font-medium rounded-full border-neutral-300 border shadow-xs">
+                  <div
+                    className={`h-full rounded-full ${color} shadow-sm`}
+                    style={{
+                      width: percentage,
+                    }}
+                  />
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </div>
 
       <div className="fragrance-notes-container">
         <h4 className="text-lg font-semibold mb-2">Fragrance Notes</h4>
-        <div className="notes-section flex flex-col gap-6">
+        <div className="notes-section flex flex-col gap-10">
           {/* Top Notes */}
           <div className="note-category">
-            <h5 className="text-left text-sm font-semibold mb-3">Top Notes</h5>
-            <div className="notes-grid flex flex-wrap gap-3">
-              {Notes.Top.map((note, index) => (
-                <span key={index} className="note-name tag">
-                  {note.name}
-                </span>
-              ))}
+            <h5 className="text-left text-md font-semibold mb-3">Top Notes</h5>
+            <div className="notes-grid flex flex-wrap gap-3 gap-y-5">
+              {Notes.Top.map((note, index) => {
+                const color = getNoteColor(note.name);
+                return (
+                  <span key={index} className={`note-name tag border ${color}`}>
+                    {note.name}
+                  </span>
+                );
+              })}
             </div>
           </div>
 
           {/* Middle Notes */}
           <div className="note-category">
-            <h5 className="text-left text-sm font-semibold mb-3">
+            <h5 className="text-left text-md font-semibold mb-3">
               Middle Notes
             </h5>
-            <div className="notes-grid flex flex-wrap gap-3">
-              {Notes.Middle.map((note, index) => (
-                <div key={index} className="note-item">
-                  <span className="note-name tag">{note.name}</span>
-                </div>
-              ))}
+            <div className="notes-grid flex flex-wrap gap-3 gap-y-5">
+              {Notes.Middle.map((note, index) => {
+                const color = getNoteColor(note.name);
+                return (
+                  <span key={index} className={`note-name tag border ${color}`}>
+                    {note.name}
+                  </span>
+                );
+              })}
             </div>
           </div>
 
           {/* Base Notes */}
           <div className="note-category">
-            <h5 className="text-left text-sm font-semibold mb-3">Base Notes</h5>
-            <div className="notes-grid flex flex-wrap gap-3">
-              {Notes.Base.map((note, index) => (
-                <div key={index} className="note-item">
-                  <span className="note-name tag">{note.name}</span>
-                </div>
-              ))}
+            <h5 className="text-left text-md font-semibold mb-3">Base Notes</h5>
+            <div className="notes-grid flex flex-wrap gap-3 gap-y-5">
+              {Notes.Base.map((note, index) => {
+                const color = getNoteColor(note.name);
+                return (
+                  <span key={index} className={`note-name tag border ${color}`}>
+                    {note.name}
+                  </span>
+                );
+              })}
             </div>
           </div>
         </div>

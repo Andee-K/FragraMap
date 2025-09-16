@@ -2,8 +2,9 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/Button";
-import Rating from "@mui/material/Rating";
 import StyledRating from "../components/StyledRating";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import TextField from "@mui/material/TextField";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -20,8 +21,7 @@ function FragranceTest() {
     loadError,
     handleChange,
     handleSubmit,
-    handleDelete,
-  } = useFragranceTest(user?.uid, fragranceId, navigate);
+  } = useFragranceTest(user.uid, fragranceId, navigate);
 
   if (loading) return <div className="p-6">Loading fragrance...</div>;
   if (loadError) return <div className="p-6 text-red-600">{loadError}</div>;
@@ -32,15 +32,24 @@ function FragranceTest() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="flex flex-col gap-6 p-6 max-w-[720px] m-auto">
         <div className="">
-          <h1 className="text-lg font-semibold">Fragrance Test</h1>
-          <div className="mt-1">
-            <div className="text-xl font-medium">{userFragranceData.name}</div>
+          <button
+            className="text-left text-sm font-bold flex items-center gap-1 mb-4 transition-transform hover:scale-105 hover:cursor-pointer"
+            onClick={() => navigate(-1)}
+          >
+            <ArrowBackRoundedIcon fontSize="medium" />
+            Back
+          </button>
+          <h1 className="text-md font-bold">Fragrance Test</h1>
+          <div className="mt-2">
+            <div className="text-xl font-semibold">
+              {userFragranceData.name}
+            </div>
             <div className="text-md font-medium">{userFragranceData.brand}</div>
           </div>
         </div>
 
         <div>
-          <label className="block text-md font-semibold mb-1">Test Date</label>
+          <label className="block text-sm font-semibold mb-2">Test Date</label>
           <DatePicker
             value={userFragranceData.testDate}
             onChange={(newValue) => handleChange("testDate", newValue)}
@@ -48,26 +57,29 @@ function FragranceTest() {
         </div>
 
         <div>
-          <label className="block text-md font-semibold mb-1">
+          <label className="block text-sm font-semibold mb-2">
             Your Rating
           </label>
           <StyledRating
             name="fragrance-rating-styled"
             value={userFragranceData.rating || 0}
             onChange={(_, newValue) => handleChange("rating", newValue)}
+            size="large"
           />
         </div>
 
         <div>
-          <label htmlFor="notes" className="block text-md font-semibold mb-1">
+          <label htmlFor="notes" className="block text-sm font-semibold mb-2">
             Notes
           </label>
-          <textarea
+          <TextField
             id="notes"
             placeholder="Write your notes here..."
-            className="w-full min-h-[120px] border rounded-md p-2"
             value={userFragranceData.personalNotes || ""}
             onChange={(e) => handleChange("personalNotes", e.target.value)}
+            fullWidth
+            multiline
+            minRows={5}
           />
         </div>
 
@@ -77,9 +89,6 @@ function FragranceTest() {
           </Button>
           <Button type="button" onClick={handleSubmit}>
             Save
-          </Button>
-          <Button type="button" onClick={handleDelete}>
-            Delete
           </Button>
         </div>
       </div>

@@ -11,8 +11,6 @@ export function useUserFragrances(uid) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!uid) return;
-
     const colRef = collection(db, "users", uid, "fragrances");
 
     const unsubscribe = onSnapshot(colRef, (snapshot) => {

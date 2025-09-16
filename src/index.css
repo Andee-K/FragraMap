@@ -1,5 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=TikTok+Sans:opsz,wght@12..36,300..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=TikTok+Sans:opsz,wght@12..36,300..900&display=swap");
 @import "tailwindcss";
+@source inline("bg-{floral,soft-floral,floral-amber,amber,soft-amber,woody-amber,woody,mossy-woods,dry-woods,fresh-aromatic,citrus,water-marine,green,fruity,fallback}");
+@source inline("border-{floral,soft-floral,floral-amber,amber,soft-amber,woody-amber,woody,mossy-woods,dry-woods,fresh-aromatic,citrus,water-marine,green,fruity,fallback}");
 
 @theme {
   --color-primary-50: oklch(0.9377 0.0138 272.69);
@@ -24,6 +26,28 @@
   --color-neutral-cool-800: oklch(0.3628 0.0245 275.62);
   --color-neutral-cool-900: oklch(0.2324 0.024 270.17);
 
+  /* Fragrance families with similar brightness and saturation */
+  --color-floral: oklch(0.91 0.07 357.2);
+  --color-soft-floral: oklch(0.92 0.02 299.7);
+  --color-floral-amber: oklch(0.7 0.16 55);
+  --color-amber: oklch(0.53 0.14 53.6);
+  --color-soft-amber: oklch(0.74 0.08 73.1);
+  --color-woody-amber: oklch(0.4 0.1 50);
+  --color-woody: oklch(0.33 0.06 47.9);
+  --color-mossy-woods: oklch(0.35 0.07 131.6);
+  --color-dry-woods: oklch(0.5 0.06 63.8);
+  --color-fresh-aromatic: oklch(0.88 0.03 240);
+  --color-citrus: oklch(0.95 0.2 98.7);
+  --color-water-marine: oklch(0.7 0.11 254.9);
+  --color-green: oklch(0.52 0.08 141.2);
+  --color-fruity: oklch(0.57 0.2 37.9);
+  /* Fallback */
+  --color-fallback: #4a4a4a; /* A neutral gray */
+
+  --color-men: oklch(0.35 0.13 258.8);
+  --color-women: oklch(0.7 0.18 350);
+  --color-unisex: oklch(0.35 0.02 268.2);
+
   --font-tiktok: "TikTok Sans", sans-serif;
 }
 
@@ -37,3 +61,18 @@
     border-radius: 30px;
   }
 }
+
+/* floral
+soft-floral
+floral-amber
+amber
+soft-amber
+woody-amber
+woody
+mossy-woods
+dry-woods
+fresh-aromatic
+citrus
+water-marine
+green
+fruity */

@@ -12,8 +12,6 @@ export function useFragranceTest(uid, fragranceId, navigate) {
 
   // fetch fragrance
   useEffect(() => {
-    if (!uid || !fragranceId) return;
-
     let mounted = true;
     async function fetchData() {
       setLoading(true);
