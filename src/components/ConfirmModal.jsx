@@ -1,4 +1,4 @@
-const ConfirmModal = ({ onClose, onConfirm, fragranceId, type }) => {
+const ConfirmModal = ({ onClose, onConfirm, name, type }) => {
   const isDelete = type === "delete";
 
   return (
@@ -15,7 +15,7 @@ const ConfirmModal = ({ onClose, onConfirm, fragranceId, type }) => {
             <>
               Are you sure you want to delete{" "}
               <span className="font-semibold text-neutral-cool-900">
-                {fragranceId}
+                {name}
               </span>
               ? This action cannot be undone.
             </>
@@ -23,7 +23,7 @@ const ConfirmModal = ({ onClose, onConfirm, fragranceId, type }) => {
             <>
               Mark{" "}
               <span className="font-semibold  text-neutral-cool-900">
-                {fragranceId}
+                {name}
               </span>{" "}
               as finished?
             </>

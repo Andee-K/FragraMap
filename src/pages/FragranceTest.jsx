@@ -1,5 +1,6 @@
-import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+// src/pages/FragranceTest.js
+import React, { useEffect } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/Button";
 import StyledRating from "../components/StyledRating";
@@ -14,14 +15,17 @@ function FragranceTest() {
   const { fragranceId } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
-
+  // ✅ Use the useLocation hook to get the state
+  const location = useLocation();
+  const { isEditing } = location.state || {};
+  
   const {
     userFragranceData,
     loading,
     loadError,
     handleChange,
     handleSubmit,
-  } = useFragranceTest(user.uid, fragranceId, navigate);
+  } = useFragranceTest(user.uid, fragranceId, navigate, isEditing);
 
   if (loading) return <div className="p-6">Loading fragrance...</div>;
   if (loadError) return <div className="p-6 text-red-600">{loadError}</div>;
@@ -39,7 +43,10 @@ function FragranceTest() {
             <ArrowBackRoundedIcon fontSize="medium" />
             Back
           </button>
-          <h1 className="text-md font-bold">Fragrance Test</h1>
+          {/* ✅ Dynamic heading based on state */}
+          <h1 className="text-xl font-bold">
+            {isEditing ? "Edit Test Notes" : "Fragrance Test"}
+          </h1>
           <div className="mt-2">
             <div className="text-xl font-semibold">
               {userFragranceData.name}

@@ -17,7 +17,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import Button from "./Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import Rating from "@mui/material/Rating";
+import StyledRating from "./StyledRating";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { useNavigate } from "react-router-dom";
@@ -30,18 +30,17 @@ export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { testFragrance } =
-    useFragranceActions(user.uid);
+  const { testFragrance } = useFragranceActions(user.uid);
 
-  const handleClick = (id, action) => {
+  const handleClick = (id, name, action) => {
     if (action === "details") {
       navigate(`/dashboard/fragrance/${id}`);
     } else if (action === "delete") {
-      onRequestDelete(id);
+      onRequestDelete(id, name);
     } else if (action === "edit") {
-      navigate(`/dashboard/test/${id}`);
+      navigate(`/dashboard/test/${id}`, { state: { isEditing: true } });
     } else if (action === "finish") {
-      onRequestFinish(id)
+      onRequestFinish(id, name);
     } else if (action === "test") {
       testFragrance(fragrance);
       navigate(`/dashboard/test/${id}`);
@@ -51,7 +50,11 @@ export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
   return (
     <>
       {/* Main row */}
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+      <TableRow
+        sx={{
+          "& > *": { borderBottom: "unset" },
+        }}
+      >
         {/* Test Details Toggle */}
         {fragrance.status === "testing" && (
           <TableCell>
@@ -79,13 +82,17 @@ export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
           <div className="flex items-center gap-4 justify-end">
             <button
               className="hover:cursor-pointer hover:scale-110 transition-transform"
-              onClick={() => handleClick(fragrance.id, "delete")}
+              onClick={() =>
+                handleClick(fragrance.id, fragrance.name, "delete")
+              }
             >
               <DeleteIcon sx={{ color: "var(--color-red-700)" }} />
             </button>
             <button
               className="flex items-center gap-2 font-semibold text-nowrap rounded-md p-2 shadow-xs border border-primary-100 hover:cursor-pointer hover:scale-102 transition-transform"
-              onClick={() => handleClick(fragrance.id, "details")}
+              onClick={() =>
+                handleClick(fragrance.id, fragrance.name, "details")
+              }
             >
               <InfoIcon
                 fontSize="small"
@@ -94,13 +101,18 @@ export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
               Fragrance Info
             </button>
             {fragrance.status === "bookmarked" && (
-              <Button onClick={() => handleClick(fragrance.id, "test")}>
+              <Button
+                onClick={() =>
+                  handleClick(fragrance.id, fragrance.name, "test")
+                }
+              >
                 Start Testing
               </Button>
             )}
           </div>
         </TableCell>
       </TableRow>
+
       {/* Expanded details row */}
       {fragrance.status === "testing" && (
         <TableRow>
@@ -144,10 +156,9 @@ export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
                             </TableCell>
                             <TableCell>
                               {fragrance.rating ? (
-                                <Rating
-                                  name="read-only"
+                                <StyledRating
+                                  readOnly={true}
                                   value={fragrance.rating}
-                                  readOnly
                                 />
                               ) : (
                                 "-"
@@ -166,7 +177,11 @@ export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
                               <div className="flex gap-6 justify-end">
                                 <button
                                   onClick={() =>
-                                    handleClick(fragrance.id, "edit")
+                                    handleClick(
+                                      fragrance.id,
+                                      fragrance.name,
+                                      "edit"
+                                    )
                                   }
                                   className="flex gap-2 items-center font-semibold text-nowrap text-primary-900 hover:cursor-pointer hover:underline"
                                 >
@@ -178,7 +193,11 @@ export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
                                 </button>
                                 <Button
                                   onClick={() =>
-                                    handleClick(fragrance.id, "finish")
+                                    handleClick(
+                                      fragrance.id,
+                                      fragrance.name,
+                                      "finish"
+                                    )
                                   }
                                 >
                                   Finish Testing
@@ -201,7 +220,12 @@ export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
 }
 
 // FragranceTable component
-export function FragranceTable({ title, data, onRequestDelete, onRequestFinish }) {
+export function FragranceTable({
+  title,
+  data,
+  onRequestDelete,
+  onRequestFinish,
+}) {
   return (
     <Box>
       <TableContainer
@@ -227,8 +251,13 @@ export function FragranceTable({ title, data, onRequestDelete, onRequestFinish }
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((f) => (
-              <FragranceRow key={f.id} fragrance={f} onRequestDelete={onRequestDelete} onRequestFinish={onRequestFinish}/>
+            {data.map((info) => (
+              <FragranceRow
+                key={info.id}
+                fragrance={info}
+                onRequestDelete={onRequestDelete}
+                onRequestFinish={onRequestFinish}
+              />
             ))}
           </TableBody>
         </Table>

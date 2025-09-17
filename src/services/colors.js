@@ -5,7 +5,6 @@ export function getAccordColor(accord) {
 }
 export function getNoteColor(note) {
   const family = colorDictionary[note.toLowerCase()];
-  console.log(family);
   return family ? `border-${family} border-2` : "border-fallback border-2";
 }
 

@@ -1,14 +1,16 @@
+// src/hooks/useFragranceTest.js
 import { useEffect, useState } from "react";
 import { getUserFragrance } from "../services/fragranceService";
 import { useFragranceActions } from "../hooks/useFragranceActions";
 import dayjs from "dayjs";
+import { useToast } from "../context/ToastContext";
 
-export function useFragranceTest(uid, fragranceId, navigate) {
+export function useFragranceTest(uid, fragranceId, navigate, isEditing) {
   const { updateFragrance, deleteFragrance } = useFragranceActions(uid);
-
   const [userFragranceData, setUserFragranceData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(null);
+  const { showToast } = useToast();
 
   // fetch fragrance
   useEffect(() => {
@@ -61,36 +63,42 @@ export function useFragranceTest(uid, fragranceId, navigate) {
   // save fragrance test changes
   const handleSubmit = async () => {
     if (!userFragranceData) return;
-    const patch = {
-      rating: userFragranceData.rating ?? null,
-      personalNotes: userFragranceData.personalNotes ?? "",
-      testDate: userFragranceData.testDate ?? null,
-    };
-    const result = await updateFragrance(fragranceId, patch);
-    if (result?.success) {
-      alert("Fragrance updated!");
-      navigate("/dashboard");
-    } else {
-      alert("Failed to update fragrance: " + (result?.error || "Unknown error"));
+
+    // Input validation
+    if (
+      userFragranceData.rating == null ||
+      !userFragranceData.personalNotes.trim() ||
+      !userFragranceData.testDate
+    ) {
+      showToast("Please fill in all fields before saving.", "error");
+      return;
     }
-  };
 
-  // delete fragrance
-  const handleDelete = async () => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this fragrance from your collection?"
-    );
-    if (!confirmDelete) return;
+    const patch = {
+      rating: userFragranceData.rating,
+      personalNotes: userFragranceData.personalNotes,
+      testDate: userFragranceData.testDate,
+    };
 
-    const result = await deleteFragrance(fragranceId);
-    if (result?.success && result?.deleted) {
-      alert("Fragrance deleted!");
-      navigate("/dashboard");
-    } else if (result?.success && !result?.deleted) {
-      alert("Fragrance not found. It may have already been removed.");
+    const result = await updateFragrance(fragranceId, patch);
+    console.log({result})
+    if (result.success) {
+      if (isEditing) { // ✅ Use the isEditing flag
+        showToast(
+          `Successfully updated test for ${userFragranceData.name}!`, // Assuming result.name is returned
+          "success"
+        );
+      } else {
+        showToast(
+          `Successfully added ${userFragranceData.name} to testing!`, // Assuming result.name is returned
+          "success"
+        );
+      }
       navigate("/dashboard");
     } else {
-      alert("Failed to delete fragrance: " + (result?.error || "Unknown error"));
+      alert(
+        "Failed to update fragrance: " + (result?.error || "Unknown error")
+      );
     }
   };
 
@@ -100,6 +108,5 @@ export function useFragranceTest(uid, fragranceId, navigate) {
     loadError,
     handleChange,
     handleSubmit,
-    handleDelete,
   };
 }

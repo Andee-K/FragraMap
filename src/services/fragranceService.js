@@ -99,7 +99,7 @@ export async function addUserFragrance(uid, fragranceInfo) {
 
     tx.set(userRef, baseUserDoc);
 
-    return { success: true, id: fragranceId, created: true };
+    return { success: true, id: fragranceId, name: name, created: true };
   });
 
   return result;
@@ -110,15 +110,12 @@ export async function addUserFragrance(uid, fragranceInfo) {
  * Returns { success: true, id }
  */
 export async function updateUserFragrance(uid, fragranceId, patch) {
-  if (!uid) throw new Error("User not authenticated");
-  if (!fragranceId) throw new Error("fragranceId is required");
   const ref = doc(db, "users", uid, "fragrances", fragranceId);
-
   try {
     await updateDoc(ref, { ...patch, lastUpdated: serverTimestamp() });
     return { success: true, id: fragranceId };
   } catch (error) {
-    console.error("[updateUserFragrance] failed", error?.code, error?.message, {
+    console.error("[updateUserFragrance] failed", error.code, error.message, {
       path: ref.path,
       patch,
     });
@@ -131,8 +128,6 @@ export async function updateUserFragrance(uid, fragranceId, patch) {
  * Returns { success, deleted, id?, error? }
  */
 export async function deleteUserFragrance(uid, fragranceId) {
-  if (!uid) throw new Error("User not authenticated");
-  if (!fragranceId) throw new Error("fragranceId is required");
   const ref = doc(db, "users", uid, "fragrances", fragranceId);
 
   try {
@@ -143,7 +138,7 @@ export async function deleteUserFragrance(uid, fragranceId) {
     }
 
     await deleteDoc(ref);
-    return { success: true, deleted: true, id: fragranceId };
+    return { success: true, deleted: true, id: fragranceId, name: snap.name };
   } catch (error) {
     console.error("[deleteUserFragrance] failed", error?.code, error?.message, {
       path: ref.path,
@@ -202,16 +197,15 @@ export function getLongevityScale(value) {
   if (num <= 40) return { rating: 2, label: "Weak (2–4 hrs)" };
   if (num <= 60) return { rating: 3, label: "Moderate (4–6 hrs)" };
   if (num <= 80) return { rating: 4, label: "Long Lasting (6–10 hrs)" };
-  return { rating: 5, label: "Beast Mode (10+ hrs)" };
+  return { rating: 5, label: "Very Long (10+ hrs)" };
 }
 
 // Map sillage % to scale 1–5
 export function getSillageScale(value) {
   const num = value.slice(0, -1); // remove trailing %
-  if (num <= 20)
-    return { rating: 1, label: "Very Intimate (only you can smell it)" };
-  if (num <= 40) return { rating: 2, label: "Close (arm’s length)" };
+  if (num <= 20) return { rating: 1, label: "Very Light (only you can smell)" };
+  if (num <= 40) return { rating: 2, label: "Light (arm’s length)" };
   if (num <= 60) return { rating: 3, label: "Moderate (a few feet)" };
   if (num <= 80) return { rating: 4, label: "Strong (fills a room)" };
-  return { rating: 5, label: "Beast Mode (leaves a scent trail)" };
+  return { rating: 5, label: "Very Strong (leaves a scent trail)" };
 }

@@ -4,26 +4,28 @@ import Button from "../../components/Button";
 import { useFragranceActions } from "../../hooks/useFragranceActions";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../context/ToastContext";
 
 const AddFragranceModal = ({ fragranceInfo, onClose }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
-  const { bookmarkFragrance, testFragrance, loading, error } = useFragranceActions(
-    user?.uid
-  );
+  const { bookmarkFragrance, testFragrance, loading, error } =
+    useFragranceActions(user.uid);
 
   const handleBookmarkClick = async () => {
     try {
       const result = await bookmarkFragrance(fragranceInfo);
-      if (!result?.success) {
-        throw new Error(result?.error || "Failed to bookmark");
+      if (!result.success) {
+        throw new Error(result.error || "Failed to bookmark");
       }
-      alert("Fragrance bookmarked successfully!");
+      console.log(result);
+      showToast(`Successfully bookmarked ${result.name}!`, "success");
       onClose();
     } catch (err) {
       console.error("Failed to bookmark fragrance:", err);
-      alert("Something went wrong. Please try again.");
+      showToast(`Something went wrong. Please try again.`, "error");
     }
   };
 

@@ -4,7 +4,7 @@ import {
   updateUserFragrance,
   deleteUserFragrance,
   getUserFragrance, // optional in case you need it elsewhere
-  toFragranceId
+  toFragranceId,
 } from "../services/fragranceService";
 import { Timestamp } from "firebase/firestore";
 
@@ -37,7 +37,10 @@ export function useFragranceActions(uid) {
   );
 
   const handleAddFragrance = useCallback(
-    (fragranceInfo) => run(() => addUserFragrance(uid, fragranceInfo)),
+    async (fragranceInfo) => {
+      const fragrance = await run(() => addUserFragrance(uid, fragranceInfo));
+      return fragrance.name;
+    },
     [run, uid]
   );
 
@@ -58,18 +61,20 @@ export function useFragranceActions(uid) {
   );
 
   const handleDeleteFragrance = useCallback(
-    (fragranceId) => run(() => deleteUserFragrance(uid, fragranceId)),
+    async (fragranceId) => {
+      const fragrance = await run(() => deleteUserFragrance(uid, fragranceId));
+      return fragrance.name;
+    },
     [run, uid]
   );
-
-
+  
   // Ensure exists, then set status="bookmarked"
   const bookmarkFragrance = useCallback(
     async (fragranceInfo) =>
       run(async () => {
-        const fragranceId = fragranceInfo.id || toFragranceId(fragranceInfo.Name, fragranceInfo.Brand);
-        console.log(fragranceInfo);
-        console.log("bookmarkFragrance", { fragranceId });
+        const fragranceId =
+          fragranceInfo.id ||
+          toFragranceId(fragranceInfo.Name, fragranceInfo.Brand);
 
         // Ensure the doc exists (transaction will be a no-op if it already does)
         const ensure = await addUserFragrance(uid, fragranceInfo);
@@ -77,7 +82,12 @@ export function useFragranceActions(uid) {
           status: "bookmarked",
         });
 
-        return { ...update, id: fragranceId, ensuredCreated: ensure.created };
+        return {
+          ...update,
+          id: fragranceId,
+          name: fragranceInfo.Name,
+          ensuredCreated: ensure.created,
+        };
       }),
     [run, uid]
   );
@@ -86,7 +96,9 @@ export function useFragranceActions(uid) {
   const testFragrance = useCallback(
     async (fragranceInfo) =>
       run(async () => {
-        const fragranceId = fragranceInfo.id || toFragranceId(fragranceInfo.Name, fragranceInfo.Brand);
+        const fragranceId =
+          fragranceInfo.id ||
+          toFragranceId(fragranceInfo.Name, fragranceInfo.Brand);
 
         // Ensure the doc exists
         const ensure = await addUserFragrance(uid, fragranceInfo);
@@ -95,16 +107,21 @@ export function useFragranceActions(uid) {
           testDate: Timestamp.now(),
         });
 
-        return { ...update, id: fragranceId, ensuredCreated: ensure.created };
+        return {
+          ...update,
+          id: fragranceId,
+          name: fragranceInfo.Name,
+          ensuredCreated: ensure.created,
+        };
       }),
     [run, uid]
   );
 
-    // Ensure exists, then set status="testing" and testDate=now
+  // Ensure exists, then set status="testing" and testDate=now
   const finishFragrance = useCallback(
     async (fragranceId) =>
       run(async () => {
-        console.log(fragranceId);
+        console.log({ fragranceId });
 
         // Ensure the doc exists
         const update = await updateUserFragrance(uid, fragranceId, {
@@ -125,6 +142,6 @@ export function useFragranceActions(uid) {
     deleteFragrance: handleDeleteFragrance,
     bookmarkFragrance,
     testFragrance,
-    finishFragrance
+    finishFragrance,
   };
 }

@@ -158,6 +158,7 @@ const FragranceCard = ({ fragranceInfo }) => {
           value={sillage.rating}
           icon={<CloudIcon fontSize="inherit" />}
           emptyIcon={<CloudQueueIcon fontSize="inherit" />}
+          readOnly={true}
         />
       </div>
     </div>
