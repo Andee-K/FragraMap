@@ -28,14 +28,14 @@ const FragranceCard = ({ fragranceInfo }) => {
   const genderColor = getGenderColor(Gender)
 
   return (
-    <div className="fragrance-card-container flex flex-col gap-8 max-w-md rounded-md p-2 m-auto sm:p-4">
+    <div className="fragrance-card-container flex flex-col gap-8 rounded-md m-auto">
       <div className="fragrance-header flex justify-between">
         <div className="header-left text-left">
           <h3 className="fragrance-name text-xl font-semibold">{Name}</h3>
-          <h4 className="fragrance-brand text-lg font-medium">{Brand}</h4>
+          <h4 className="fragrance-brand text-lg font-semibold">{Brand}</h4>
         </div>
         <div
-          className={`header-right tag self-start ${genderColor}`}
+          className={`header-right self-start font-semibold border-2 rounded-full py-1 px-4 ${genderColor}`}
         >
           {Gender}
         </div>
@@ -52,7 +52,7 @@ const FragranceCard = ({ fragranceInfo }) => {
 
       <div className="main-accords-container">
         <h4 className="text-lg font-semibold mb-2">Main Accords</h4>
-        <ul className="flex flex-col gap-5">
+        <ul className="flex flex-col gap-3">
           {Accords.map((accord) => {
             const percentage = AccordsPercentage[accord];
             const color = getAccordColor(accord);

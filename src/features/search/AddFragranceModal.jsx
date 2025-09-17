@@ -1,18 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import FragranceCard from "./FragranceCard";
 import Button from "../../components/Button";
 import { useFragranceActions } from "../../hooks/useFragranceActions";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../../context/ToastContext";
+import {
+  toFragranceId,
+  getUserFragrance,
+} from "../../services/fragranceService";
 
 const AddFragranceModal = ({ fragranceInfo, onClose }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { showToast } = useToast();
 
-  const { bookmarkFragrance, testFragrance, loading, error } =
-    useFragranceActions(user.uid);
+  const { bookmarkFragrance, testFragrance, loading } = useFragranceActions(
+    user.uid
+  );
+
+  // Status variables
+  const [fragranceStatus, setFragranceStatus] = useState(null);
+  const [loadStatus, setLoadStatus] = useState(true);
+  const [error, setError] = useState(null); // ✅ added
+
+  const fragranceId = toFragranceId(fragranceInfo.Name, fragranceInfo.Brand);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await getUserFragrance(user.uid, fragranceId);
+        setFragranceStatus(data?.status || null);
+      } catch (err) {
+        setError("Failed to load fragrance data."); // ✅ now works
+      } finally {
+        setLoadStatus(false);
+      }
+    }
+    fetchData();
+  }, [user.uid, fragranceId]);
+
+  if (loadStatus) {
+    return <span>Loading status...</span>;
+  }
+
+  if (error) {
+    return <span className="text-red-600">{error}</span>;
+  }
 
   const handleBookmarkClick = async () => {
     try {
@@ -20,7 +54,6 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
       if (!result.success) {
         throw new Error(result.error || "Failed to bookmark");
       }
-      console.log(result);
       showToast(`Successfully bookmarked ${result.name}!`, "success");
       onClose();
     } catch (err) {
@@ -30,6 +63,13 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
   };
 
   const handleTestClick = async () => {
+    if (fragranceStatus === "testing") {
+      // Already testing → go directly to test page
+      navigate(`/dashboard/test/${fragranceId}`);
+      return;
+    }
+
+    // Not testing yet → start a new test
     try {
       const result = await testFragrance(fragranceInfo);
       if (!result?.success || !result?.id) {
@@ -39,30 +79,51 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
       navigate(`/dashboard/test/${result.id}`);
     } catch (err) {
       console.error("Failed to start test:", err);
-      alert("Something went wrong. Please try again.");
+      showToast("Something went wrong. Please try again.", "error");
     }
   };
 
   return (
-    <div className="relative bg-neutral-50 rounded-lg shadow-xl w-full max-w-lg p-6 overflow-y-auto max-h-[90vh]">
+    <div className="relative bg-neutral-50 rounded-lg shadow-xl w-full max-w-lg p-8 md:p-10 overflow-y-auto max-h-[90vh]">
+      <div className="mb-6 ">
+        {fragranceStatus === "testing" ? (
+          <span className="text-primary-800 bg-primary-100 font-bold text-md border-2 border-primary-800 p-2 px-3 rounded-md">
+            In Testing
+          </span>
+        ) : fragranceStatus === "bookmarked" ? (
+          <span className="bg-amber-100 text-amber-700 border-amber-700 font-bold text-md border-2 p-2 px-3 rounded-md">
+            Bookmarked
+          </span>
+        ) : fragranceStatus === "finished" ? (
+          <span className="bg-green-100 text-green-700 border-green-700 font-bold text-md border-2 p-2 px-3 rounded-md">
+            Finished
+          </span>
+        ) : (
+          <span className="text-neutral-cool-600 bg-neutral-cool-100 border-neutral-cool-600 font-bold text-md border-2 p-2 px-3 rounded-md">
+            Not in collection
+          </span>
+        )}
+      </div>
+
       <FragranceCard fragranceInfo={fragranceInfo} />
 
-      {error ? (
-        <div className="text-red-600 text-sm mt-2" role="alert">
-          {error}
-        </div>
-      ) : null}
-
       <div className="mt-6 flex gap-3 justify-end">
-        <Button type="button" onClick={onClose}>
-          Close
-        </Button>
-        <Button type="button" onClick={handleBookmarkClick} disabled={loading}>
-          {loading ? "Working..." : "Bookmark"}
-        </Button>
-        <Button type="button" onClick={handleTestClick} disabled={loading}>
-          {loading ? "Working..." : "Start Test"}
-        </Button>
+        <Button onClick={onClose}>Close</Button>
+        {fragranceStatus === null && (
+          <Button onClick={handleBookmarkClick} disabled={loading}>
+            Bookmark
+          </Button>
+        )}
+        {/* Only render test button if fragrance status is not "finished" */}
+        {fragranceStatus === "finished" ? (
+          <Button onClick={() => navigate(`/dashboard/test/${fragranceId}`)}>
+            See Test Details
+          </Button>
+        ) : (
+          <Button onClick={handleTestClick} disabled={loading}>
+            {fragranceStatus === "testing" ? "Edit Test" : "Start Test"}
+          </Button>
+        )}
       </div>
     </div>
   );

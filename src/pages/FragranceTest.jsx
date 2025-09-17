@@ -15,7 +15,7 @@ function FragranceTest() {
   const { fragranceId } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
-  // ✅ Use the useLocation hook to get the state
+  // Use the useLocation hook to get the state
   const location = useLocation();
   const { isEditing } = location.state || {};
   
@@ -35,7 +35,7 @@ function FragranceTest() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="flex flex-col gap-6 p-6 max-w-[720px] m-auto">
-        <div className="">
+        <div>
           <button
             className="text-left text-sm font-bold flex items-center gap-1 mb-4 transition-transform hover:scale-105 hover:cursor-pointer"
             onClick={() => navigate(-1)}

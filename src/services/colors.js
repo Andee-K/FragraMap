@@ -1,26 +1,34 @@
 // Helper: return Tailwind class from a accord
+// A simple helper function to get the color class
 export function getAccordColor(accord) {
   const family = colorDictionary[accord.toLowerCase()];
-  return family ? `bg-${family}` : "bg-fallback";
-}
-export function getNoteColor(note) {
-  const family = colorDictionary[note.toLowerCase()];
-  return family ? `border-${family} border-2` : "border-fallback border-2";
+  // ✅ Standardized fallback color
+  return family
+    ? `bg-${family}-100 border-2 border-${family}-400`
+    : "bg-slate-100 border-2 border-slate-400";
 }
 
-// A simple helper function to get the color class
+export function getNoteColor(note) {
+  const family = colorDictionary[note.toLowerCase()];
+  // ✅ Standardized fallback color
+  return family
+    ? `bg-${family}-50 border-2 border-${family}-400 text-${family}-600`
+    : "bg-slate-50 border-2 border-slate-400 text-slate-600";
+}
+
 export function getGenderColor(gender) {
   switch (gender.toLowerCase()) {
     case "men":
-      return "bg-men text-neutral-cool-200";
+      return "bg-men text-blue-800 border-blue-800";
     case "women":
-      return "bg-women text-neutral-cool-200";
+      return "bg-women text-pink-800 border-pink-800";
     case "unisex":
-      return "bg-unisex text-neutral-cool-200";
+      return "bg-unisex text-zinc-800 border-zinc-800";
     default:
-      return "bg-gray-200"; // Fallback color
+      // ✅ Standardized fallback color
+      return "bg-gray-200 text-gray-600 border-gray-600";
   }
-};
+}
 
 // DATA FROM FRAGRANTICA
 // Map notes to fragrance families
@@ -57,6 +65,9 @@ export const colorDictionary = {
   "white floral": "floral",
   woody: "woody",
   "yellow floral": "floral",
+
+  // Custom
+  fruits: "fruity",
 
   // Citrus Family
   bergamot: "citrus",
@@ -1246,6 +1257,7 @@ export const colorDictionary = {
   massoia: "woody",
   mesquite: "woody",
   "mesquite wood": "woody",
+  moss: "mossy-woods",
   muhuhu: "woody",
   "mulberry plant": "woody",
   "mysore sandalwood": "woody",
@@ -1358,7 +1370,7 @@ export const colorDictionary = {
   "ambertonic™ iff": "amber",
   ambrarome: "amber",
   ambretone: "soft-amber",
-  "ambrette musk mallow": "soft-amber",
+  "ambrette (musk mallow)": "soft-amber",
   ambrettolide: "soft-amber",
   "ambrocenide symrise": "amber",
   ambrostar: "amber",
@@ -1691,7 +1703,7 @@ export const colorDictionary = {
   pebbles: "woody",
   pencil: "woody",
   petroleum: "woody-amber",
-  "pharaone": "woody-amber",
+  pharaone: "woody-amber",
   "pink crystal": "woody",
   "pink himalayan sea salt": "water-marine",
   pizza: "fresh-aromatic",

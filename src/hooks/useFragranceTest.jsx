@@ -83,7 +83,7 @@ export function useFragranceTest(uid, fragranceId, navigate, isEditing) {
     const result = await updateFragrance(fragranceId, patch);
     console.log({result})
     if (result.success) {
-      if (isEditing) { // ✅ Use the isEditing flag
+      if (isEditing) {
         showToast(
           `Successfully updated test for ${userFragranceData.name}!`, // Assuming result.name is returned
           "success"

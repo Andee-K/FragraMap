@@ -40,7 +40,9 @@ exports.searchFragrance = onCall(async (request) => {
     }
 
     const response = await fetch(
-      `https://api.fragella.com/api/v1/fragrances?search=${encodeURIComponent(query)}`,
+      `https://api.fragella.com/api/v1/fragrances?search=${encodeURIComponent(
+        query
+      )}`,
       {
         headers: {
           "x-api-key": process.env.FRAGELLA_API_KEY,
@@ -49,7 +51,10 @@ exports.searchFragrance = onCall(async (request) => {
     );
 
     if (!response.ok) {
-      throw new HttpsError("internal", `Fragella API error: ${response.status}`);
+      throw new HttpsError(
+        "internal",
+        `Fragella API error: ${response.status}`
+      );
     }
 
     const results = await response.json();

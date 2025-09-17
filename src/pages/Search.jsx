@@ -13,6 +13,8 @@ function Search() {
 
   const { searchResults, loading, error } = useFragranceSearch(currentQuery);
 
+  console.log(searchResults);
+  
   const handleSearch = (query) => {
     setSearchParams({ q: query });
   };

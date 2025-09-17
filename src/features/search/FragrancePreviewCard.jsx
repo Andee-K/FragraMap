@@ -22,7 +22,7 @@ const FragrancePreviewCard = ({ fragranceInfo, onAddClick }) => {
       </div>
 
       <Button onClick={() => onAddClick(fragranceInfo)}>
-        Add to Collection
+        See More Details
       </Button>
     </div>
   );
