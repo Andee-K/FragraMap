@@ -94,7 +94,7 @@ export function useFragranceTest(uid, fragranceId, navigate, isEditing) {
           "success"
         );
       }
-      navigate("/dashboard");
+      navigate(-1);
     } else {
       alert(
         "Failed to update fragrance: " + (result?.error || "Unknown error")

@@ -17,9 +17,10 @@ import InfoIcon from "@mui/icons-material/Info";
 import Button from "./Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import StyledRating from "./StyledRating";
+import EmptyTable from "./EmptyTable";
 import { motion, AnimatePresence } from "framer-motion";
-
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../services/fragranceService";
 import { useFragranceActions } from "../hooks/useFragranceActions";
@@ -88,6 +89,17 @@ export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
             >
               <DeleteIcon sx={{ color: "var(--color-red-700)" }} />
             </button>
+            {fragrance.status === "finished" && (
+              <button
+                className="flex items-center gap-2 font-semibold hover:underline underline-offset-4 hover:cursor-pointer hover:scale-103 transition-transform"
+                onClick={() =>
+                  handleClick(fragrance.id, fragrance.name, "edit")
+                }
+              >
+                <VisibilityIcon fontSize="small" sx={{ color: "var(--color-primary-900)" }} ></VisibilityIcon>
+                View Test
+              </button>
+            )}
             <button
               className="flex items-center gap-2 font-semibold text-nowrap rounded-md p-2 shadow-xs border border-primary-100 hover:cursor-pointer hover:scale-102 transition-transform"
               onClick={() =>
@@ -226,11 +238,19 @@ export function FragranceTable({
   onRequestDelete,
   onRequestFinish,
 }) {
+  if (!data || data.length === 0) {
+    return (
+      <EmptyTable
+        title={`No ${title.toLowerCase()} fragrances`}
+        message={`Add a fragrance to see ${title.toLowerCase()} fragrances`}
+      />
+    );
+  }
   return (
     <Box>
       <TableContainer
         component={Paper}
-        sx={{ backgroundColor: "var(--color-neutral-cool-50)" }}
+        sx={{ backgroundColor: "var(--color-neutral-cool-100)" }}
       >
         <Table aria-label="fragrance table">
           <TableHead sx={{ backgroundColor: "var(--color-primary-900)" }}>

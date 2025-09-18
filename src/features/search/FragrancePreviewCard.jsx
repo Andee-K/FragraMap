@@ -1,7 +1,12 @@
 import React from "react";
 import Button from "../../components/Button";
+import FragrancePreviewSkeleton from "./FragrancePreviewSkeleton";
 
-const FragrancePreviewCard = ({ fragranceInfo, onAddClick }) => {
+const FragrancePreviewCard = ({ fragranceInfo, onAddClick, loading }) => {
+  if (loading) {
+    return <FragrancePreviewSkeleton></FragrancePreviewSkeleton>
+  }
+  
   return (
     <div className="flex flex-col p-6 px-8 border-primary-100 border rounded-lg shadow-sm max-w-[400px] m-auto">
       <h2 className="text-xl font-semibold text-left">

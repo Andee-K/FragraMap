@@ -11,6 +11,7 @@ import ProtectedRoute from "./features/auth/ProtectedRoute";
 import Layout from "./components/Layout";
 import Search from "./pages/Search";
 import FragranceInfo from "./pages/FragranceInfo";
+import FinishedFragrances from "./pages/FinishedFragrances";
 function App() {
   return (
     <Routes>
@@ -30,6 +31,7 @@ function App() {
         }
       >
         <Route path="/dashboard" element={<Dashboard />}></Route>
+        <Route path="/dashboard/finished" element={<FinishedFragrances />}></Route>
         <Route path="/dashboard/profile" element={<Profile />}></Route>
         <Route path="/dashboard/settings" element={<Settings />}></Route>
         <Route path="/dashboard/search" element={<Search />}></Route>
@@ -37,9 +39,10 @@ function App() {
           path="/dashboard/test/:fragranceId"
           element={<FragranceTest />}
         ></Route>
-        <Route path="/dashboard/fragrance/:fragranceId" element={<FragranceInfo />}></Route>
-
-        
+        <Route
+          path="/dashboard/fragrance/:fragranceId"
+          element={<FragranceInfo />}
+        ></Route>
       </Route>
     </Routes>
   );

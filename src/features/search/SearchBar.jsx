@@ -20,7 +20,7 @@ function SearchBar({ onSearch, loading = false, initialQuery = "" }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex gap-4 max-w-xl justify-center my-4 mb-8 w-full"
+      className="flex gap-4 max-w-[768px] justify-center my-4 mb-8 w-full"
     >
       <div className="relative w-full">
         <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-900"/>

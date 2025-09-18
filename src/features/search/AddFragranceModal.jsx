@@ -91,7 +91,7 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
             In Testing
           </span>
         ) : fragranceStatus === "bookmarked" ? (
-          <span className="bg-amber-100 text-amber-700 border-amber-700 font-bold text-md border-2 p-2 px-3 rounded-md">
+          <span className="bg-yellow-100 text-yellow-700 border-yellow-700 font-bold text-md border-2 p-2 px-3 rounded-md">
             Bookmarked
           </span>
         ) : fragranceStatus === "finished" ? (

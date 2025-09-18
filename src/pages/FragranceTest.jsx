@@ -4,12 +4,12 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/Button";
 import StyledRating from "../components/StyledRating";
-import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import TextField from "@mui/material/TextField";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useFragranceTest } from "../hooks/useFragranceTest";
+import BackButton from "../components/BackButton";
 
 function FragranceTest() {
   const { fragranceId } = useParams();
@@ -18,14 +18,9 @@ function FragranceTest() {
   // Use the useLocation hook to get the state
   const location = useLocation();
   const { isEditing } = location.state || {};
-  
-  const {
-    userFragranceData,
-    loading,
-    loadError,
-    handleChange,
-    handleSubmit,
-  } = useFragranceTest(user.uid, fragranceId, navigate, isEditing);
+
+  const { userFragranceData, loading, loadError, handleChange, handleSubmit } =
+    useFragranceTest(user.uid, fragranceId, navigate, isEditing);
 
   if (loading) return <div className="p-6">Loading fragrance...</div>;
   if (loadError) return <div className="p-6 text-red-600">{loadError}</div>;
@@ -36,14 +31,8 @@ function FragranceTest() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="flex flex-col gap-6 p-6 max-w-[720px] m-auto">
         <div>
-          <button
-            className="text-left text-sm font-bold flex items-center gap-1 mb-4 transition-transform hover:scale-105 hover:cursor-pointer"
-            onClick={() => navigate(-1)}
-          >
-            <ArrowBackRoundedIcon fontSize="medium" />
-            Back
-          </button>
-          {/* ✅ Dynamic heading based on state */}
+          <BackButton navigateBack={() => navigate(-1)}></BackButton>
+          {/* Dynamic heading based on state */}
           <h1 className="text-xl font-bold">
             {isEditing ? "Edit Test Notes" : "Fragrance Test"}
           </h1>

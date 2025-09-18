@@ -12,7 +12,7 @@ const NavBar = () => {
   return (
     <>
       {/* Top Navbar */}
-      <header className="w-full p-6 bg-primary-900 text-white">
+      <header className="w-full p-6 md:px-10 max-break-w:px-0 bg-primary-900 text-white">
         <div className="max-w-[1440px] flex justify-between items-center m-auto">
           <Link to="/dashboard"><span className="text-2xl font-bold">FragraMap</span></Link>
           <nav className="hidden md:flex items-center space-x-6">

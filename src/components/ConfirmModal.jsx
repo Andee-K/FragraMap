@@ -25,7 +25,9 @@ const ConfirmModal = ({ onClose, onConfirm, name, type }) => {
               <span className="font-semibold  text-neutral-cool-900">
                 {name}
               </span>{" "}
-              as finished?
+              as finished? This action is <span className="font-semibold text-neutral-900">permanent.</span> If you want to
+              test this fragrance again, you will have to delete
+              the current entry and start over.{" "}
             </>
           )}
         </p>
@@ -34,7 +36,7 @@ const ConfirmModal = ({ onClose, onConfirm, name, type }) => {
         <div className="flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 font-semibold text-neutral-cool-700 hover:cursor-pointer hover:underline transition"
+            className="px-4 py-2 font-semibold text-neutral-cool-700 hover:text-neutral-cool-600 hover:cursor-pointer hover:underline underline-offset-2 transition"
           >
             Cancel
           </button>
@@ -44,7 +46,7 @@ const ConfirmModal = ({ onClose, onConfirm, name, type }) => {
             className={`px-4 py-2 rounded-lg text-white font-semibold hover:cursor-pointer transition ${
               isDelete
                 ? "bg-red-700 hover:bg-red-800"
-                : "bg-green-700 hover:bg-green-800"
+                : "bg-primary-900 hover:bg-primary-950"
             }`}
           >
             {isDelete ? "Delete" : "Finish"}

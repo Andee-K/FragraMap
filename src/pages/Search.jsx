@@ -12,15 +12,13 @@ function Search() {
   const currentQuery = searchParams.get("q") || "";
 
   const { searchResults, loading, error } = useFragranceSearch(currentQuery);
-
-  console.log(searchResults);
   
   const handleSearch = (query) => {
     setSearchParams({ q: query });
   };
 
   return (
-    <div className="p-6 md:p-10">
+    <div>
       <h1 className="text-2xl font-bold">Search for a Fragrance</h1>
       <SearchBar
         onSearch={handleSearch}
@@ -37,6 +35,7 @@ function Search() {
             <li key={`${fragrance.Name}-${fragrance.Brand}`}>
               <FragrancePreviewCard
                 fragranceInfo={fragrance}
+                loading={loading}
                 onAddClick={() => setFragranceModal(fragrance)}
               />
             </li>
