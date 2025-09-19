@@ -29,12 +29,6 @@ export default function FragranceInfo() {
     return <div>Loading...</div>;
   }
 
-  if (!fragrance) {
-    return <div>No fragrance data found.</div>;
-  }
-
-  console.log(fragrance);
-
   return (
     <div className="max-w-2xl m-auto p-6 sm:p-12 border-2">
       <button

@@ -46,14 +46,6 @@ export default function Dashboard() {
     closeModal();
   };
 
-  if (loading) {
-    return (
-      <div className="dashboard-container">
-        <p>Loading...</p>
-      </div>
-    );
-  }
-
   return (
     <div className="dashboard-container">
       <h1 className="text-2xl">
@@ -110,6 +102,7 @@ export default function Dashboard() {
         <FragranceTable
           title="Testing"
           data={fragrances.testing}
+          loading={loading}
           onRequestDelete={(id, name) => openModal("delete", id, name)}
           onRequestFinish={(id, name) => openModal("finish", id, name)}
         />
@@ -118,6 +111,7 @@ export default function Dashboard() {
         <FragranceTable
           title="Bookmarked"
           data={fragrances.bookmarked}
+          loading={loading}
           onRequestDelete={(id, name) => openModal("delete", id, name)}
           onRequestFinish={(id, name) => openModal("finish", id, name)}
         />

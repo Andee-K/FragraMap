@@ -20,7 +20,13 @@ function FragranceTest() {
   const { isEditing, newFragranceInfo } = location.state || {};
 
   const { userFragranceData, loading, handleChange, handleSubmit } =
-    useFragranceTest(user.uid, fragranceId, navigate, isEditing, newFragranceInfo);
+    useFragranceTest(
+      user.uid,
+      fragranceId,
+      navigate,
+      isEditing,
+      newFragranceInfo
+    );
 
   if (loading) return <div className="p-6">Loading fragrance...</div>;
 

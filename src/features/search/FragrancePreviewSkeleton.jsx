@@ -16,7 +16,7 @@ const FragrancePreviewSkeleton = () => {
         <Skeleton
           variant="rounded"
           width="100%"
-          height={200}
+          height={300}
           sx={{ borderRadius: "0.375rem" }}
         />
       </div>

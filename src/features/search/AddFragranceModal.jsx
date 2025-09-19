@@ -15,14 +15,12 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
   const navigate = useNavigate();
   const { showToast } = useToast();
 
-  const { bookmarkFragrance, loading } = useFragranceActions(
-    user.uid
-  );
+  const { bookmarkFragrance, loading } = useFragranceActions(user.uid);
 
   // Status variables
   const [fragranceStatus, setFragranceStatus] = useState(null);
   const [loadStatus, setLoadStatus] = useState(true);
-  
+
   const fragranceId = toFragranceId(fragranceInfo.Name, fragranceInfo.Brand);
 
   useEffect(() => {
@@ -31,7 +29,8 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
         const data = await getUserFragrance(user.uid, fragranceId);
         setFragranceStatus(data?.status || null);
       } catch (err) {
-        setError("Failed to load fragrance data.");
+        console.error("Failed to load fragrance data:", err);
+        showToast("Failed to load fragrance data.", "error");
       } finally {
         setLoadStatus(false);
       }
@@ -60,23 +59,19 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
   const handleTestClick = async () => {
     if (fragranceStatus === "testing") {
       // Already testing → go directly to test page
-      navigate(`/dashboard/test/${fragranceId}`, {state: {isEditing: true}});
+      navigate(`/dashboard/test/${fragranceId}`, {
+        state: { isEditing: true },
+      });
       return;
     }
 
-    // Not testing yet → start a new test
-    try {
-      onClose();
-      navigate(`/dashboard/test/${fragranceId}`, {
-        state: {
-          isEditing: false,
-          newFragranceInfo: fragranceInfo,
-        },
-      });
-    } catch (err) {
-      console.error("Failed to start test:", err);
-      showToast("Something went wrong. Please try again.", "error");
-    }
+    onClose();
+    navigate(`/dashboard/test/${fragranceId}`, {
+      state: {
+        isEditing: false,
+        newFragranceInfo: fragranceInfo,
+      },
+    });
   };
 
   return (

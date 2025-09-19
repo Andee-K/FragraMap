@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useUserFragrances } from "../hooks/useUserFragrances";
 import { useAuth } from "../context/AuthContext";
 import { FragranceTable } from "../components/FragranceTable";
+import { FragranceTableSkeleton } from "../components/FragranceTableSkeleton";
 import BackButton from "../components/BackButton";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../components/ConfirmModal";
@@ -28,18 +29,23 @@ export default function FinishedFragrances() {
     closeModal();
   };
 
-  if (loading) return <p>Loading...</p>;
-
   return (
     <div>
       <BackButton navigateBack={() => navigate(-1)} />
       <h1 className="text-xl font-semibold mb-4">Finished Fragrances</h1>
 
-      <FragranceTable
-        title="Finished"
-        data={fragrances}
-        onRequestDelete={(id, name) => openModal("delete", id, name)}
-      />
+      {loading ? (
+        <FragranceTableSkeleton
+          title={"Finished"}
+          rows={7}
+        ></FragranceTableSkeleton>
+      ) : (
+        <FragranceTable
+          title="Finished"
+          data={fragrances}
+          onRequestDelete={(id, name) => openModal("delete", id, name)}
+        />
+      )}
 
       {/* Modal */}
       {modal.type && (

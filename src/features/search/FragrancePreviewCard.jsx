@@ -21,7 +21,7 @@ const FragrancePreviewCard = ({ fragranceInfo, onAddClick, loading }) => {
             fragranceInfo["Image URL"]
           }
           alt={`${fragranceInfo.Name} by ${fragranceInfo.Brand} Image`}
-          className="w-full object-contain rounded-md"
+          className="w-full object-contain rounded-md aspect-square"
           onError={(e) => e.currentTarget.src = fragranceInfo["Image Fallbacks"][0]}
         />
       </div>

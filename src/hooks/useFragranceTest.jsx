@@ -11,8 +11,7 @@ export function useFragranceTest(
   isEditing,
   newFragranceInfo
 ) {
-  const { addFragrance, updateFragrance, testFragrance } =
-    useFragranceActions(uid);
+  const { addFragrance, testFragrance } = useFragranceActions(uid);
   const [userFragranceData, setUserFragranceData] = useState(null);
   const [loading, setLoading] = useState(true);
   const { showToast } = useToast();

@@ -20,6 +20,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import StyledRating from "./StyledRating";
 import EmptyTable from "./EmptyTable";
+import { FragranceTableSkeleton } from "./FragranceTableSkeleton"; // Import the skeleton component
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../services/fragranceService";
@@ -239,7 +240,16 @@ export function FragranceTable({
   data,
   onRequestDelete,
   onRequestFinish,
+  loading,
 }) {
+  // If loading, render the skeleton table
+  if (loading) {
+    return (
+      <FragranceTableSkeleton title={title} rows={7} />
+    );
+  }
+
+  // If not loading and no data, show the empty table message
   if (!data || data.length === 0) {
     return (
       <EmptyTable
@@ -248,6 +258,8 @@ export function FragranceTable({
       />
     );
   }
+
+  // If not loading and data is present, render the actual table
   return (
     <Box>
       <TableContainer

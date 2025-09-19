@@ -8,7 +8,11 @@ import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import CloudQueueIcon from "@mui/icons-material/CloudQueue";
 import CloudIcon from "@mui/icons-material/Cloud";
 import StyledRating from "../../components/StyledRating";
-import { getAccordColor, getNoteColor, getGenderColor } from "../../services/colors";
+import {
+  getAccordColor,
+  getNoteColor,
+  getGenderColor,
+} from "../../services/colors";
 const FragranceCard = ({ fragranceInfo }) => {
   const {
     Name,
@@ -25,7 +29,7 @@ const FragranceCard = ({ fragranceInfo }) => {
 
   const longevity = getLongevityScale(Longevity);
   const sillage = getSillageScale(Sillage);
-  const genderColor = getGenderColor(Gender)
+  const genderColor = getGenderColor(Gender);
 
   return (
     <div className="fragrance-card-container flex flex-col gap-8 rounded-md m-auto">
