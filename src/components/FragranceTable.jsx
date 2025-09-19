@@ -23,15 +23,11 @@ import EmptyTable from "./EmptyTable";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../services/fragranceService";
-import { useFragranceActions } from "../hooks/useFragranceActions";
-import { useAuth } from "../context/AuthContext";
 
 // Row component for each fragrance
 export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const { user } = useAuth();
-  const { testFragrance } = useFragranceActions(user.uid);
 
   const handleClick = (id, name, action) => {
     if (action === "details") {
@@ -43,8 +39,9 @@ export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
     } else if (action === "finish") {
       onRequestFinish(id, name);
     } else if (action === "test") {
-      testFragrance(fragrance);
-      navigate(`/dashboard/test/${id}`);
+      navigate(`/dashboard/test/${id}`, {
+        state: { isEditing: false },
+      });
     }
   };
 
@@ -89,6 +86,8 @@ export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
             >
               <DeleteIcon sx={{ color: "var(--color-red-700)" }} />
             </button>
+
+            {/* For finished table only */}
             {fragrance.status === "finished" && (
               <button
                 className="flex items-center gap-2 font-semibold hover:underline underline-offset-4 hover:cursor-pointer hover:scale-103 transition-transform"
@@ -96,7 +95,10 @@ export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
                   handleClick(fragrance.id, fragrance.name, "edit")
                 }
               >
-                <VisibilityIcon fontSize="small" sx={{ color: "var(--color-primary-900)" }} ></VisibilityIcon>
+                <VisibilityIcon
+                  fontSize="small"
+                  sx={{ color: "var(--color-primary-900)" }}
+                ></VisibilityIcon>
                 View Test
               </button>
             )}
@@ -139,7 +141,7 @@ export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.25 }}
                   >
-                    <Box sx={{ margin: 1 }}>
+                    <Box sx={{ marginTop: 2, marginBottom: 2 }}>
                       <Table size="small" aria-label="details">
                         <TableHead>
                           <TableRow>
@@ -195,7 +197,7 @@ export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
                                       "edit"
                                     )
                                   }
-                                  className="flex gap-2 items-center font-semibold text-nowrap text-primary-900 hover:cursor-pointer hover:underline"
+                                  className="flex gap-2 items-center font-semibold text-nowrap text-primary-900 transition hover:text-primary-950 hover:scale-103 hover:cursor-pointer hover:underline underline-offset-4"
                                 >
                                   <EditIcon
                                     fontSize="small"

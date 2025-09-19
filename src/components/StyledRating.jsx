@@ -10,7 +10,7 @@ const RatingIcon = styled(Rating)({
     color: "#c7d2fe",
   },
   "& .MuiRating-icon": {
-    margin: "0 4px",
+    margin: "0 2px",
   },
 });
 

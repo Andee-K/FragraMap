@@ -17,15 +17,12 @@ function FragranceTest() {
   const navigate = useNavigate();
   // Use the useLocation hook to get the state
   const location = useLocation();
-  const { isEditing } = location.state || {};
+  const { isEditing, newFragranceInfo } = location.state || {};
 
-  const { userFragranceData, loading, loadError, handleChange, handleSubmit } =
-    useFragranceTest(user.uid, fragranceId, navigate, isEditing);
+  const { userFragranceData, loading, handleChange, handleSubmit } =
+    useFragranceTest(user.uid, fragranceId, navigate, isEditing, newFragranceInfo);
 
   if (loading) return <div className="p-6">Loading fragrance...</div>;
-  if (loadError) return <div className="p-6 text-red-600">{loadError}</div>;
-  if (!userFragranceData)
-    return <div className="p-6">No data available for this fragrance.</div>;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

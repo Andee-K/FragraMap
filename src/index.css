@@ -231,7 +231,7 @@
 
   --color-men: oklch(0.932 0.032 255.585);
   --color-women: oklch(0.948 0.028 342.258);
-  --color-unisex: oklch(0.967 0.001 286.375);
+  --color-unisex: oklch(0.92 0.001 286.375);
 
   --font-tiktok: "TikTok Sans", sans-serif;
 

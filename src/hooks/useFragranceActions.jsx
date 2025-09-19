@@ -67,7 +67,7 @@ export function useFragranceActions(uid) {
     },
     [run, uid]
   );
-  
+
   // Ensure exists, then set status="bookmarked"
   const bookmarkFragrance = useCallback(
     async (fragranceInfo) =>
@@ -92,27 +92,18 @@ export function useFragranceActions(uid) {
     [run, uid]
   );
 
+  // useFragranceActions.js
   // Ensure exists, then set status="testing" and testDate=now
   const testFragrance = useCallback(
-    async (fragranceInfo) =>
+    async (fragranceId, testData) =>
       run(async () => {
-        const fragranceId =
-          fragranceInfo.id ||
-          toFragranceId(fragranceInfo.Name, fragranceInfo.Brand);
-
-        // Ensure the doc exists
-        const ensure = await addUserFragrance(uid, fragranceInfo);
-        const update = await updateUserFragrance(uid, fragranceId, {
+        await updateUserFragrance(uid, fragranceId, {
           status: "testing",
-          testDate: Timestamp.now(),
+          rating: testData.rating,
+          personalNotes: testData.personalNotes,
+          testDate: Timestamp.fromDate(testData.testDate.toDate()),
         });
-
-        return {
-          ...update,
-          id: fragranceId,
-          name: fragranceInfo.Name,
-          ensuredCreated: ensure.created,
-        };
+        return { success: true, id: fragranceId };
       }),
     [run, uid]
   );

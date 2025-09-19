@@ -108,7 +108,7 @@ export default function Dashboard() {
 
       {activeTab === "testing" && (
         <FragranceTable
-          testing="Testing"
+          title="Testing"
           data={fragrances.testing}
           onRequestDelete={(id, name) => openModal("delete", id, name)}
           onRequestFinish={(id, name) => openModal("finish", id, name)}

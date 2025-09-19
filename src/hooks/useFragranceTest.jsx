@@ -1,58 +1,58 @@
-// src/hooks/useFragranceTest.js
 import { useEffect, useState } from "react";
 import { getUserFragrance } from "../services/fragranceService";
 import { useFragranceActions } from "../hooks/useFragranceActions";
 import dayjs from "dayjs";
 import { useToast } from "../context/ToastContext";
 
-export function useFragranceTest(uid, fragranceId, navigate, isEditing) {
-  const { updateFragrance, deleteFragrance } = useFragranceActions(uid);
+export function useFragranceTest(
+  uid,
+  fragranceId,
+  navigate,
+  isEditing,
+  newFragranceInfo
+) {
+  const { addFragrance, updateFragrance, testFragrance } =
+    useFragranceActions(uid);
   const [userFragranceData, setUserFragranceData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState(null);
   const { showToast } = useToast();
 
-  // fetch fragrance
   useEffect(() => {
-    let mounted = true;
-    async function fetchData() {
-      setLoading(true);
-      setLoadError(null);
+    setLoading(true);
 
+    async function initFragranceData() {
       try {
-        const data = await getUserFragrance(uid, fragranceId);
-        if (!mounted) return;
-
-        if (!data) {
-          setLoadError("Fragrance not found in your collection.");
-          setUserFragranceData(null);
-        } else {
+        if (newFragranceInfo) {
+          // --- New fragrance: normalize + set defaults ---
           setUserFragranceData({
-            ...data,
-            testDate:
-              data.testDate && typeof data.testDate.toDate === "function"
-                ? dayjs(data.testDate.toDate())
-                : data.testDate
-                ? dayjs(data.testDate)
-                : null,
+            name: newFragranceInfo.Name || newFragranceInfo.name,
+            brand: newFragranceInfo.Brand || newFragranceInfo.brand,
+            id: newFragranceInfo.id,
+            status: "testing",
+            rating: 0,
+            personalNotes: "",
+            testDate: dayjs(),
           });
+        } else {
+          // --- Editing: fetch user’s existing test data ---
+          const data = await getUserFragrance(uid, fragranceId);
+          if (data) {
+            setUserFragranceData({
+              ...data,
+              testDate: data.testDate ? dayjs(data.testDate.toDate()) : dayjs(),
+            });
+          }
         }
       } catch (err) {
-        if (!mounted) return;
-        console.error("Failed to fetch fragrance:", err);
-        setLoadError("Failed to load fragrance.");
+        console.error("Failed to load fragrance:", err);
       } finally {
-        if (mounted) setLoading(false);
+        setLoading(false);
       }
     }
 
-    fetchData();
-    return () => {
-      mounted = false;
-    };
-  }, [uid, fragranceId]);
+    initFragranceData();
+  }, [uid, fragranceId, newFragranceInfo]);
 
-  // local state updates
   const handleChange = (field, value) => {
     setUserFragranceData((prev) => ({
       ...prev,
@@ -60,52 +60,45 @@ export function useFragranceTest(uid, fragranceId, navigate, isEditing) {
     }));
   };
 
-  // save fragrance test changes
   const handleSubmit = async () => {
-    if (!userFragranceData) return;
-
-    // Input validation
+    // Validating user test entry
     if (
-      userFragranceData.rating == null ||
-      !userFragranceData.personalNotes.trim() ||
+      !userFragranceData.rating ||
+      !userFragranceData.personalNotes?.trim() ||
       !userFragranceData.testDate
     ) {
       showToast("Please fill in all fields before saving.", "error");
       return;
     }
 
-    const patch = {
-      rating: userFragranceData.rating,
-      personalNotes: userFragranceData.personalNotes,
-      testDate: userFragranceData.testDate,
-    };
-
-    const result = await updateFragrance(fragranceId, patch);
-    console.log({result})
-    if (result.success) {
-      if (isEditing) {
-        showToast(
-          `Successfully updated test for ${userFragranceData.name}!`, // Assuming result.name is returned
-          "success"
-        );
-      } else {
-        showToast(
-          `Successfully added ${userFragranceData.name} to testing!`, // Assuming result.name is returned
-          "success"
-        );
+    try {
+      // Add fragrance to database if new
+      if (newFragranceInfo) {
+        await addFragrance(newFragranceInfo);
       }
+
+      // Apply test status to current fragrance
+      await testFragrance(fragranceId, userFragranceData);
+
+      // --- Success toast + navigation ---
+      const message = isEditing
+        ? `Successfully updated test for ${userFragranceData.name}!`
+        : `Successfully added ${
+            userFragranceData.name || userFragranceData.Name
+          } to testing!`;
+
+      showToast(message, "success");
       navigate(-1);
-    } else {
-      alert(
-        "Failed to update fragrance: " + (result?.error || "Unknown error")
-      );
+      return;
+    } catch (err) {
+      console.error("Error with saving test:", err);
+      showToast("Something went wrong :/", "error");
     }
   };
 
   return {
     userFragranceData,
     loading,
-    loadError,
     handleChange,
     handleSubmit,
   };

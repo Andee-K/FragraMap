@@ -98,7 +98,6 @@ export async function addUserFragrance(uid, fragranceInfo) {
     };
 
     tx.set(userRef, baseUserDoc);
-
     return { success: true, id: fragranceId, name: name, created: true };
   });
 
@@ -157,7 +156,6 @@ export async function deleteUserFragrance(uid, fragranceId) {
  * Returns object or null
  */
 export async function getUserFragrance(uid, fragranceId) {
-  if (!fragranceId) throw new Error("fragranceId is required");
   const ref = doc(db, "users", uid, "fragrances", fragranceId);
   const snap = await getDoc(ref);
   if (!snap.exists()) return null;

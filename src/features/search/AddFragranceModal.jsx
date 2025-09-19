@@ -15,15 +15,14 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
   const navigate = useNavigate();
   const { showToast } = useToast();
 
-  const { bookmarkFragrance, testFragrance, loading } = useFragranceActions(
+  const { bookmarkFragrance, loading } = useFragranceActions(
     user.uid
   );
 
   // Status variables
   const [fragranceStatus, setFragranceStatus] = useState(null);
   const [loadStatus, setLoadStatus] = useState(true);
-  const [error, setError] = useState(null); // ✅ added
-
+  
   const fragranceId = toFragranceId(fragranceInfo.Name, fragranceInfo.Brand);
 
   useEffect(() => {
@@ -32,7 +31,7 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
         const data = await getUserFragrance(user.uid, fragranceId);
         setFragranceStatus(data?.status || null);
       } catch (err) {
-        setError("Failed to load fragrance data."); // ✅ now works
+        setError("Failed to load fragrance data.");
       } finally {
         setLoadStatus(false);
       }
@@ -42,10 +41,6 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
 
   if (loadStatus) {
     return <span>Loading status...</span>;
-  }
-
-  if (error) {
-    return <span className="text-red-600">{error}</span>;
   }
 
   const handleBookmarkClick = async () => {
@@ -65,18 +60,19 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
   const handleTestClick = async () => {
     if (fragranceStatus === "testing") {
       // Already testing → go directly to test page
-      navigate(`/dashboard/test/${fragranceId}`);
+      navigate(`/dashboard/test/${fragranceId}`, {state: {isEditing: true}});
       return;
     }
 
     // Not testing yet → start a new test
     try {
-      const result = await testFragrance(fragranceInfo);
-      if (!result?.success || !result?.id) {
-        throw new Error(result?.error || "Failed to start test");
-      }
       onClose();
-      navigate(`/dashboard/test/${result.id}`);
+      navigate(`/dashboard/test/${fragranceId}`, {
+        state: {
+          isEditing: false,
+          newFragranceInfo: fragranceInfo,
+        },
+      });
     } catch (err) {
       console.error("Failed to start test:", err);
       showToast("Something went wrong. Please try again.", "error");
