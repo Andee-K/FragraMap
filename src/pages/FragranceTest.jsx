@@ -1,5 +1,4 @@
 // src/pages/FragranceTest.js
-import React, { useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/Button";
@@ -32,11 +31,11 @@ function FragranceTest() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div className="flex flex-col gap-6 p-6 max-w-[720px] m-auto">
+      <div className="flex flex-col gap-6 p-3 max-w-[720px] m-auto">
         <div>
           <BackButton navigateBack={() => navigate(-1)}></BackButton>
           {/* Dynamic heading based on state */}
-          <h1 className="text-xl font-bold">
+          <h1 className="text-md font-bold mb-3">
             {isEditing ? "Edit Test Notes" : "Fragrance Test"}
           </h1>
           <div className="mt-2">

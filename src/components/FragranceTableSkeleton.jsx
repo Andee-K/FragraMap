@@ -11,14 +11,6 @@ import {
   Skeleton,
 } from "@mui/material";
 
-/**
- * Renders a complete table skeleton loading state.
- * It includes the table container, headers, and placeholder rows.
- *
- * @param {object} props - The component props.
- * @param {string} props.title - The title of the table, used to determine the correct headers.
- * @param {number} props.rows - The number of rows to render in the skeleton table.
- */
 export function FragranceTableSkeleton({ title, rows }) {
   // Determine the number of columns based on the title
   const columns = title === "Testing" ? 5 : 4;

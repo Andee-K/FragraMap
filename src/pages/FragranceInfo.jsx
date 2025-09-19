@@ -30,7 +30,7 @@ export default function FragranceInfo() {
   }
 
   return (
-    <div className="max-w-2xl m-auto p-6 sm:p-12 border-2">
+    <div className="max-w-2xl m-auto p-6 sm:p-12 border-1 bg-neutral-cool-100 border-neutral-cool-300 rounded-md shadow-sm">
       <button
         className="text-left text-sm font-bold flex items-center gap-1 mb-4 transition-transform hover:scale-105 hover:cursor-pointer"
         onClick={() => navigate(-1)}

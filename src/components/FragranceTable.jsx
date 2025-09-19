@@ -254,7 +254,7 @@ export function FragranceTable({
     return (
       <EmptyTable
         title={`No ${title.toLowerCase()} fragrances`}
-        message={`Add a fragrance to see ${title.toLowerCase()} fragrances`}
+        message={`Add a fragrance to ${title.toLowerCase()} fragrances`}
       />
     );
   }

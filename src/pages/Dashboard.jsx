@@ -48,17 +48,21 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-container">
-      <h1 className="text-2xl">
-        Welcome, <span className="font-medium">{user.displayName}!</span>
+      <h1 className="text-2xl font-medium mt-4 mb-8">
+        Welcome, <span className="font-bold">{user.displayName}!</span>
       </h1>
+      <h2 className="font-semibold text-xl mt-4">
+        Add a new fragrance to your collection
+      </h2>
+
       <SearchBar onSearch={handleSearch} loading={false} />
-      <div className="fragrance-header flex align-baseline justify-between mb-4">
+      <div className="fragrance-header flex align-baseline justify-between mb-4 mt-8">
         <h2 className="text-xl font-semibold">Your Fragrances</h2>
         <Link
           to="/dashboard/finished"
           className="flex text-normal items-center text-right font-medium gap-2 hover:text-neutral-cool-800 hover:scale-102 transition hover:underline underline-offset-3"
         >
-          View Finished Fragrances{" "}
+          View Finished Fragrances
           <KeyboardDoubleArrowRightIcon></KeyboardDoubleArrowRightIcon>
         </Link>
       </div>

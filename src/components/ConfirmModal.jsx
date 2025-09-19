@@ -25,9 +25,7 @@ const ConfirmModal = ({ onClose, onConfirm, name, type }) => {
               <span className="font-semibold  text-neutral-cool-900">
                 {name}
               </span>{" "}
-              as finished? This action is <span className="font-semibold text-neutral-900">permanent.</span> If you want to
-              test this fragrance again, you will have to delete
-              the current entry and start over.{" "}
+              as finished? This action is cannot be undone.
             </>
           )}
         </p>

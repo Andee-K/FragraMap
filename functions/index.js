@@ -35,10 +35,6 @@ exports.searchFragrance = onCall(async (request) => {
     // The client will pass { q: "Dior Sauvage" }
     const query = request.data.q;
 
-    if (!query) {
-      throw new HttpsError("invalid-argument", "Missing search query.");
-    }
-
     const response = await fetch(
       `https://api.fragella.com/api/v1/fragrances?search=${encodeURIComponent(
         query
@@ -51,10 +47,34 @@ exports.searchFragrance = onCall(async (request) => {
     );
 
     if (!response.ok) {
-      throw new HttpsError(
-        "internal",
-        `Fragella API error: ${response.status}`
-      );
+      switch (response.status) {
+        case 400:
+          throw new HttpsError(
+            "invalid-argument",
+            "Search term must be at least 3 characters."
+          );
+        case 403:
+          throw new HttpsError(
+            "unauthenticated",
+            "Authentication error. Please try again later."
+          );
+        case 404:
+          throw new HttpsError(
+            "not-found",
+            `No fragrances found for "${query}".`
+          );
+        case 429:
+          throw new HttpsError(
+            "resource-exhausted",
+            "Too many searches. Please wait and try again."
+          );
+        case 500:
+        default:
+          throw new HttpsError(
+            "internal",
+            "Fragella API error. Please try again later."
+          );
+      }
     }
 
     const results = await response.json();

@@ -75,7 +75,8 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
   };
 
   return (
-    <div className="relative bg-neutral-50 rounded-lg shadow-xl w-full max-w-lg p-8 md:p-10 overflow-y-auto max-h-[90vh]">
+    // User status for fragrance
+    <div className="relative border-neutral-cool-400 bg-neutral-cool-100 rounded-lg shadow-xl w-full max-w-lg p-8 py-12 sm:p-12 overflow-y-auto max-h-[90vh]">
       <div className="mb-6 ">
         {fragranceStatus === "testing" ? (
           <span className="text-primary-800 bg-primary-100 font-bold text-md border-2 border-primary-800 p-2 px-3 rounded-md">
@@ -90,7 +91,7 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
             Finished
           </span>
         ) : (
-          <span className="text-neutral-cool-600 bg-neutral-cool-100 border-neutral-cool-600 font-bold text-md border-2 p-2 px-3 rounded-md">
+          <span className="text-neutral-cool-600 bg-neutral-cool-300 border-neutral-cool-600 font-bold text-md border-2 p-2 px-3 rounded-md">
             Not in collection
           </span>
         )}
@@ -98,19 +99,20 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
 
       <FragranceCard fragranceInfo={fragranceInfo} />
 
-      <div className="mt-6 flex gap-3 justify-end">
+      <div className="mt-10 flex gap-3 justify-end">
         <Button onClick={onClose}>Close</Button>
         {fragranceStatus === null && (
           <Button onClick={handleBookmarkClick} disabled={loading}>
             Bookmark
           </Button>
         )}
-        {/* Only render test button if fragrance status is not "finished" */}
+        {/* Status is finished */}
         {fragranceStatus === "finished" ? (
           <Button onClick={() => navigate(`/dashboard/test/${fragranceId}`)}>
             See Test Details
           </Button>
         ) : (
+          // Status is either testing or bookmarked
           <Button onClick={handleTestClick} disabled={loading}>
             {fragranceStatus === "testing" ? "Edit Test" : "Start Test"}
           </Button>

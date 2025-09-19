@@ -237,6 +237,10 @@
 
   /* Breakpoint */
   --breakpoint-max-break-w: 90rem;
+
+  --height-search-empty-h: 65vh;
+  --height-table-empty-h: 55vh;
+
 }
 
 @layer {
