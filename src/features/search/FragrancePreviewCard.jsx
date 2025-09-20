@@ -13,8 +13,8 @@ const FragrancePreviewCard = ({ fragranceInfo, onAddClick, loading }) => {
       onClick={() => onAddClick(fragranceInfo)}
       className="flex flex-col p-8 px-10 border-neutral-cool-400 border-t-primary-900 border-t-8 bg-neutral-cool-200 border rounded-lg shadow-sm max-w-[400px] m-auto hover:scale-102 transition hover:cursor-pointer hover:border-t-primary-800 group"
     >
-      <h2 className="text-xl font-semibold text-left">{fragranceInfo.Name}</h2>
-      <h3 className="fragrance-brand text-lg text-left font-semibold text-neutral-cool-700">
+      <h2 className="text-xl font-semibold text-left text-neutral-cool-800">{fragranceInfo.Name}</h2>
+      <h3 className="fragrance-brand text-lg text-left font-semibold text-neutral-cool-600">
         {fragranceInfo.Brand}
       </h3>
       <div className="my-6">

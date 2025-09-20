@@ -78,7 +78,7 @@ const NavBar = () => {
 
               {/* Nav links */}
               <div className="flex flex-col gap-4 mt-10 p-4 font-semibold text-lg">
-                <Link to="/dashboard">Dashboard</Link>
+                <Link to="/dashboard" onClick={() => setOpen(false)}>Dashboard</Link>
                 {/* <Link to="/dashboard/profile">Profile</Link>
                 <Link to="/dashboard/settings">Settings</Link> */}
               </div>

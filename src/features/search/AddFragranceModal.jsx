@@ -78,7 +78,7 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
   return (
     // User status for fragrance
     <div className="relative rounded-lg shadow-xl w-full max-w-lg sm:px-6 overflow-y-auto max-h-[90vh] bg-primary-900">
-      <div className="flex justify-between items-center py-8 px-4 sm:px-0">
+      <div className="flex justify-between items-center py-6 px-4 sm:px-0">
         {fragranceStatus === "testing" ? (
           <span className="text-primary-800 bg-primary-100 font-bold text-md border-2 border-primary-800 p-2 px-3 rounded-md">
             In Testing

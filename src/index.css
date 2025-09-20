@@ -3,10 +3,13 @@
 
 /* Accord properties */
 @source inline("bg-{floral,soft-floral,floral-amber,amber,soft-amber,woody-amber,woody,mossy-woods,dry-woods,fresh-aromatic,citrus,water-marine,green,fruity,fallback}-100");
+@source inline("border-{floral,soft-floral,floral-amber,amber,soft-amber,woody-amber,woody,mossy-woods,dry-woods,fresh-aromatic,citrus,water-marine,green,fruity,fallback}-300");
+
 /* Note properties */
 @source inline("bg-{floral,soft-floral,floral-amber,amber,soft-amber,woody-amber,woody,mossy-woods,dry-woods,fresh-aromatic,citrus,water-marine,green,fruity,fallback}-50");
 @source inline("text-{floral,soft-floral,floral-amber,amber,soft-amber,woody-amber,woody,mossy-woods,dry-woods,fresh-aromatic,citrus,water-marine,green,fruity,fallback}-600");
-@source inline("border-{floral,soft-floral,floral-amber,amber,soft-amber,woody-amber,woody,mossy-woods,dry-woods,fresh-aromatic,citrus,water-marine,green,fruity,fallback}-400");
+@source inline("border-{floral,soft-floral,floral-amber,amber,soft-amber,woody-amber,woody,mossy-woods,dry-woods,fresh-aromatic,citrus,water-marine,green,fruity,fallback}-200");
+
 
 @theme {
   --color-primary-50: oklch(0.9377 0.0138 272.69);

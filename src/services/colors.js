@@ -2,18 +2,16 @@
 // A simple helper function to get the color class
 export function getAccordColor(accord) {
   const family = colorDictionary[accord.toLowerCase()];
-  // ✅ Standardized fallback color
   return family
-    ? `bg-${family}-100 border-2 border-${family}-400`
-    : "bg-slate-100 border-2 border-slate-400";
+    ? `bg-${family}-100 border-2 border-${family}-300`
+    : "bg-slate-100 border-2 border-slate-300";
 }
 
 export function getNoteColor(note) {
   const family = colorDictionary[note.toLowerCase()];
-  // ✅ Standardized fallback color
   return family
-    ? `bg-${family}-50 border-2 border-${family}-400 text-${family}-600`
-    : "bg-slate-50 border-2 border-slate-400 text-slate-600";
+    ? `bg-${family}-50 border-2 border-${family}-200 text-${family}-600`
+    : "bg-slate-50 border-2 border-slate-200 text-slate-600";
 }
 
 export function getGenderColor(gender) {
@@ -68,6 +66,11 @@ export const colorDictionary = {
 
   // Custom
   fruits: "fruity",
+  "egyptian jasmine": "soft-floral",
+  "turkish rose": "floral",
+  "white musk": "soft-floral",
+  "agarwood (oud)": "woody-amber",
+  "vanilla absolute": "amber",
 
   // Citrus Family
   bergamot: "citrus",

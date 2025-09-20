@@ -72,10 +72,16 @@ export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
 
         {/* Individual Fragrance Details */}
         <TableCell component="th" scope="row">
-          <p className="font-semibold">{fragrance.name}</p>
+          <p className="font-semibold text-nowrap">{fragrance.name}</p>
         </TableCell>
-        <TableCell>{fragrance.brand}</TableCell>
-        <TableCell>{formatDate(fragrance.lastUpdated)}</TableCell>
+        <TableCell>
+          <p className="text-nowrap">{fragrance.brand}</p>
+        </TableCell>
+        <TableCell>
+          <p className="text-nowrap">
+            {formatDate(fragrance.lastUpdated)}
+          </p>
+        </TableCell>
         {/* CTA Buttons */}
         <TableCell>
           <div className="flex items-center gap-4 justify-end">
@@ -91,7 +97,7 @@ export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
             {/* For finished table only */}
             {fragrance.status === "finished" && (
               <button
-                className="flex items-center gap-2 font-semibold hover:underline underline-offset-4 hover:cursor-pointer hover:scale-103 transition-transform"
+                className="flex items-center gap-2 text-nowrap font-semibold hover:underline underline-offset-4 hover:cursor-pointer hover:scale-103 transition-transform"
                 onClick={() =>
                   handleClick(fragrance.id, fragrance.name, "edit")
                 }
