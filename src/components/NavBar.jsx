@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import { Link } from "react-router-dom";
 import Button from "./Button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,15 +13,29 @@ const NavBar = () => {
 
   return (
     <>
+    
       {/* Top Navbar */}
-      <header className="w-full p-6 md:px-10 max-break-w:px-0 bg-primary-900 text-white">
+      <header className="w-full p-6 sm:p-8 max-break-w:px-0 bg-primary-900 text-white">
         <div className="max-w-[1280px] flex justify-between items-center m-auto">
-          <Link to="/dashboard"><span className="text-2xl font-bold">FragraMap</span></Link>
-          <nav className="hidden md:flex items-center space-x-6">
-            <Link to="/dashboard">Dashboard</Link>
-            <Link to="/dashboard/profile">Profile</Link>
-            <Link to="/dashboard/settings">Settings</Link>
-            <Button>Logout</Button>
+          <Link
+            to="/dashboard"
+            className="text-2xl font-bold hover:scale-103 hover:cursor-pointer transition"
+          >
+            <span>FragraMap</span>
+          </Link>
+          <nav className="hidden font-semibold md:flex items-center space-x-6">
+            <Link
+              to="/dashboard"
+              className="hover:scale-103 hover:cursor-pointer transition"
+            >
+              Dashboard
+            </Link>
+            {/* <Link to="/dashboard/profile">Profile</Link>
+            <Link to="/dashboard/settings">Settings</Link> */}
+            <button onClick={logout} className="flex gap-2 items-center hover:scale-103 hover:cursor-pointer transition">
+              Logout
+              <LogoutRoundedIcon></LogoutRoundedIcon>
+            </button>
           </nav>
           <div className="md:hidden">
             <MenuIcon
@@ -56,16 +71,16 @@ const NavBar = () => {
             >
               <button
                 onClick={() => setOpen(false)}
-                className="absolute top-4 right-4 text-neutral-cool-700 hover:scale-103 transition hover:text-neutral-cool-800 hover:cursor-pointer"
+                className="absolute top-4 right-4 text-primary-900 hover:scale-103 transition hover:text-primary-800 hover:cursor-pointer"
               >
-                <CloseIcon fontSize="large"/>
+                <CloseIcon fontSize="large" />
               </button>
 
               {/* Nav links */}
               <div className="flex flex-col gap-4 mt-10 p-4 font-semibold text-lg">
                 <Link to="/dashboard">Dashboard</Link>
-                <Link to="/dashboard/profile">Profile</Link>
-                <Link to="/dashboard/settings">Settings</Link>
+                {/* <Link to="/dashboard/profile">Profile</Link>
+                <Link to="/dashboard/settings">Settings</Link> */}
               </div>
 
               {/* Logout at bottom */}

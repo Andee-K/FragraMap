@@ -236,7 +236,7 @@
   --font-tiktok: "TikTok Sans", sans-serif;
 
   /* Breakpoint */
-  --breakpoint-max-break-w: 90rem;
+  --breakpoint-max-break-w: 80rem;
 
   --height-search-empty-h: 65vh;
   --height-table-empty-h: 55vh;

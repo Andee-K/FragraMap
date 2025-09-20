@@ -48,7 +48,7 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-container">
-      <h1 className="text-2xl font-medium mt-4 mb-8">
+      <h1 className="text-2xl font-medium mt-2 mb-4">
         Welcome, <span className="font-bold">{user.displayName}!</span>
       </h1>
       <h2 className="font-semibold text-xl mt-4">
@@ -60,7 +60,7 @@ export default function Dashboard() {
         <h2 className="text-xl font-semibold">Your Fragrances</h2>
         <Link
           to="/dashboard/finished"
-          className="flex text-normal items-center text-right font-medium gap-2 hover:text-neutral-cool-800 hover:scale-102 transition hover:underline underline-offset-3"
+          className="flex text-normal items-center text-right font-semibold gap-2 hover:text-neutral-cool-800 hover:scale-102 transition hover:underline underline-offset-3"
         >
           View Finished Fragrances
           <KeyboardDoubleArrowRightIcon></KeyboardDoubleArrowRightIcon>

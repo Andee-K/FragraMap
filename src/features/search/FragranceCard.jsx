@@ -33,7 +33,7 @@ const FragranceCard = ({ fragranceInfo }) => {
   const genderColor = getGenderColor(Gender);
 
   return (
-    <div className="fragrance-card-container flex flex-col gap-8 rounded-md m-auto">
+    <div className="fragrance-card-container flex flex-col p-8 gap-8 rounded-md m-auto bg-neutral-cool-100">
       <div className="fragrance-header flex justify-between">
         <div className="header-left text-left">
           <h3 className="fragrance-name text-xl font-semibold">{Name}</h3>
@@ -42,7 +42,7 @@ const FragranceCard = ({ fragranceInfo }) => {
           </h4>
         </div>
         <div
-          className={`header-right self-start font-semibold border-2 rounded-full py-1 px-4 ${genderColor}`}
+          className={`header-right self-start font-semibold border-2 rounded-full py-0.5 px-3 ${genderColor}`}
         >
           {Gender}
         </div>
@@ -168,7 +168,7 @@ const FragranceCard = ({ fragranceInfo }) => {
 
       <div className="fragrance-longevity-container flex justify-between items-center flex-wrap gap-4">
         <div className="longevity-header">
-          <h4 className="text-xl font-semibold">Longevity</h4>
+          <h4 className="text-md font-semibold">Longevity</h4>
           <p className="text-sm font-semibold text-neutral-cool-600">
             {longevity.label}
           </p>
@@ -184,7 +184,7 @@ const FragranceCard = ({ fragranceInfo }) => {
 
       <div className="fragrance-sillage-container flex justify-between items-center flex-wrap gap-4">
         <div className="sillage-header">
-          <h4 className="text-xl font-semibold">Sillage</h4>
+          <h4 className="text-md font-semibold">Sillage</h4>
           <p className="text-sm font-semibold text-neutral-cool-600">
             {sillage.label}
           </p>

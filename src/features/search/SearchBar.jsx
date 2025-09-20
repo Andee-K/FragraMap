@@ -25,14 +25,14 @@ function SearchBar({ onSearch, loading = false, initialQuery = "" }) {
       onSubmit={handleSubmit}
       className="flex gap-4 max-w-[768px] my-4 justify-center w-full"
     >
-      <div className="relative w-full">
+      <div className="relative w-full hover:scale-101 transition-all duration-200">
         <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-900" />
         <input
           type="text"
           value={searchItem}
           onChange={(e) => setSearchItem(e.target.value)}
           placeholder="Search for fragrance"
-          className="shadow-sm border border-primary-200 p-3 pl-12 rounded-full w-full focus:outline-none focus:bg-neutral-cool-100 focus:ring-1 focus:ring-primary-300 transition-all duration-200"
+          className="shadow-sm border border-primary-200 p-3 pl-12 rounded-full w-full focus:outline-none focus:bg-neutral-cool-100 focus:ring-1 focus:ring-primary-300 hover:cursor-pointer hover:bg-neutral-cool-100 hover:ring-1 hover:ring-primary-200"
         />
       </div>
 

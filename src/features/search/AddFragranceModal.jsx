@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import FragranceCard from "./FragranceCard";
-import Button from "../../components/Button";
+import ButtonLight from "../../components/ButtonLight";
+import CloseIcon from "@mui/icons-material/Close";
 import { useFragranceActions } from "../../hooks/useFragranceActions";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -76,8 +77,8 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
 
   return (
     // User status for fragrance
-    <div className="relative border-neutral-cool-400 bg-neutral-cool-100 rounded-lg shadow-xl w-full max-w-lg p-8 py-12 sm:p-12 overflow-y-auto max-h-[90vh]">
-      <div className="mb-6 ">
+    <div className="relative rounded-lg shadow-xl w-full max-w-lg sm:px-6 overflow-y-auto max-h-[90vh] bg-primary-900">
+      <div className="flex justify-between items-center py-8 px-4 sm:px-0">
         {fragranceStatus === "testing" ? (
           <span className="text-primary-800 bg-primary-100 font-bold text-md border-2 border-primary-800 p-2 px-3 rounded-md">
             In Testing
@@ -95,27 +96,43 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
             Not in collection
           </span>
         )}
+        <button onClick={onClose}>
+          <CloseIcon
+            fontSize="large"
+            sx={{
+              color: "var(--color-primary-100)",
+              "&:hover": {
+                transform: "scale(1.04)",
+                color: "var(--color-primary-50)",
+                cursor: "pointer",
+              },
+              transition: "transform 0.3s ease-in-out, color 0.3s ease-in-out",
+            }}
+          ></CloseIcon>
+        </button>
       </div>
 
       <FragranceCard fragranceInfo={fragranceInfo} />
 
-      <div className="mt-10 flex gap-3 justify-end">
-        <Button onClick={onClose}>Close</Button>
+      <div className="mt-6 mb-6 flex gap-3 justify-end">
+        <ButtonLight onClick={onClose}>Close</ButtonLight>
         {fragranceStatus === null && (
-          <Button onClick={handleBookmarkClick} disabled={loading}>
+          <ButtonLight onClick={handleBookmarkClick} disabled={loading}>
             Bookmark
-          </Button>
+          </ButtonLight>
         )}
         {/* Status is finished */}
         {fragranceStatus === "finished" ? (
-          <Button onClick={() => navigate(`/dashboard/test/${fragranceId}`)}>
+          <ButtonLight
+            onClick={() => navigate(`/dashboard/test/${fragranceId}`)}
+          >
             See Test Details
-          </Button>
+          </ButtonLight>
         ) : (
           // Status is either testing or bookmarked
-          <Button onClick={handleTestClick} disabled={loading}>
+          <ButtonLight onClick={handleTestClick} disabled={loading}>
             {fragranceStatus === "testing" ? "Edit Test" : "Start Test"}
-          </Button>
+          </ButtonLight>
         )}
       </div>
     </div>

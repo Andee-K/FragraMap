@@ -142,7 +142,15 @@ export function FragranceRow({ fragrance, onRequestDelete, onRequestFinish }) {
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.25 }}
                   >
-                    <Box sx={{ marginTop: 2, marginBottom: 2 }}>
+                    <Box
+                      sx={{
+                        marginTop: 2,
+                        marginBottom: 2,
+                        padding: 2,
+                        borderRadius: 2,
+                        backgroundColor: "var(--color-neutral-cool-200)",
+                      }}
+                    >
                       <Table size="small" aria-label="details">
                         <TableHead>
                           <TableRow>
@@ -244,9 +252,7 @@ export function FragranceTable({
 }) {
   // If loading, render the skeleton table
   if (loading) {
-    return (
-      <FragranceTableSkeleton title={title} rows={7} />
-    );
+    return <FragranceTableSkeleton title={title} rows={7} />;
   }
 
   // If not loading and no data, show the empty table message
