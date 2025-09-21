@@ -2,12 +2,17 @@
 @import "tailwindcss";
 
 /* Accord properties */
+/* bg-100 */
 @source inline("bg-{floral,soft-floral,floral-amber,amber,soft-amber,woody-amber,woody,mossy-woods,dry-woods,fresh-aromatic,citrus,water-marine,green,fruity,fallback}-100");
+/* bg-300 */
 @source inline("border-{floral,soft-floral,floral-amber,amber,soft-amber,woody-amber,woody,mossy-woods,dry-woods,fresh-aromatic,citrus,water-marine,green,fruity,fallback}-300");
 
 /* Note properties */
+/* bg-50 */
 @source inline("bg-{floral,soft-floral,floral-amber,amber,soft-amber,woody-amber,woody,mossy-woods,dry-woods,fresh-aromatic,citrus,water-marine,green,fruity,fallback}-50");
+/* text-600 */
 @source inline("text-{floral,soft-floral,floral-amber,amber,soft-amber,woody-amber,woody,mossy-woods,dry-woods,fresh-aromatic,citrus,water-marine,green,fruity,fallback}-600");
+/* border-200 */
 @source inline("border-{floral,soft-floral,floral-amber,amber,soft-amber,woody-amber,woody,mossy-woods,dry-woods,fresh-aromatic,citrus,water-marine,green,fruity,fallback}-200");
 
 

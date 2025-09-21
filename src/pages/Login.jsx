@@ -9,13 +9,12 @@ function Login() {
 
   const handleLogin = async (email, password) => {
     await signInWithEmailAndPassword(auth, email, password);
-    // Login successful - navigate to dashboard
     navigate("/dashboard");
   };
 
   return (
-    <AuthLayout 
-      title="Login" 
+    <AuthLayout
+      title="Login"
       subtitle="Welcome back to FragraMap"
       linkText="Don't have an account?"
       linkPath="/register"

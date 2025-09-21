@@ -11,7 +11,7 @@ export function getNoteColor(note) {
   const family = colorDictionary[note.toLowerCase()];
   return family
     ? `bg-${family}-50 border-2 border-${family}-200 text-${family}-600`
-    : "bg-slate-50 border-2 border-slate-200 text-slate-600";
+    : "bg-slate-50 border-2 border-slate-300 text-slate-500";
 }
 
 export function getGenderColor(gender) {
@@ -60,7 +60,7 @@ export const colorDictionary = {
   sweet: "floral-amber",
   tropical: "fruity",
   "warm spicy": "woody-amber",
-  "white floral": "floral",
+  "white floral": "soft-floral",
   woody: "woody",
   "yellow floral": "floral",
 
@@ -513,7 +513,7 @@ export const colorDictionary = {
   liatrix: "floral",
   "licorice flower": "floral",
   lilac: "floral",
-  "lily-of-the-valley": "soft-floral",
+  "lily of the valley": "soft-floral",
   "lime blossom": "floral",
   "litchi blossom": "floral",
   longoza: "floral",
@@ -651,6 +651,7 @@ export const colorDictionary = {
   trillium: "floral",
   tulip: "floral",
   "vanilla bahiana": "floral-amber",
+  "vanilla bean": "soft-amber",
   viburnum: "floral",
   violet: "floral",
   "violet woodsorrel": "green",
@@ -942,6 +943,7 @@ export const colorDictionary = {
   "bengal pepper": "fresh-aromatic",
   biryani: "fresh-aromatic",
   "black sesame": "woody",
+  cacao: "woody-amber",
   "cacao pod": "woody-amber",
   caraway: "fresh-aromatic",
   cardamom: "fresh-aromatic",
@@ -997,6 +999,7 @@ export const colorDictionary = {
   sumac: "fresh-aromatic",
   tamarind: "fruity",
   timur: "fresh-aromatic",
+  "tonka": "amber",
   "tonka bean": "amber",
   toscanol: "woody",
   "ultravanil™": "amber",
@@ -1186,6 +1189,7 @@ export const colorDictionary = {
   "argan tree": "woody",
   aspen: "woody",
   "australian blue cypress": "woody",
+  "australian sandalwood": "woody",
   "australian oud": "woody",
   bamboo: "woody",
   baobab: "woody",

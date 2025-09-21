@@ -50,18 +50,21 @@ export async function addUserFragrance(uid, fragranceInfo) {
       tx.get(userRef),
     ]);
 
+    // Create global if missing
     if (!globalSnap.exists()) {
-      // Create global if missing
       tx.set(globalRef, {
         ...fragranceInfo,
         createdAt: serverTimestamp(),
         lastUpdated: serverTimestamp(),
       });
     } else {
+      console.log("Entering global update for existing fragrance")
       // ------------------------- TEST FOR LATER WHEN API DATA IS UPDATED ------------------------- //
       // Update only if API data has changed
       const currentData = globalSnap.data();
       const updates = {};
+      console.log({currentData});
+      console.log({updates})
 
       // Compare only keys that changed (name, brand, accords, etc.)
       for (const [key, value] of Object.entries(fragranceInfo)) {

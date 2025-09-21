@@ -1,41 +1,48 @@
 import React, { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import { Link } from "react-router-dom";
-import Button from "./Button";
+import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import { motion, AnimatePresence } from "framer-motion";
-import { useAuth } from "../context/AuthContext";
 
-const NavBar = () => {
+const PublicNavBar = () => {
   const [open, setOpen] = useState(false);
-  const { logout } = useAuth();
 
   return (
     <>
       {/* Top Navbar */}
-      <header className="w-full p-6 sm:p-8 max-break-w:px-0 bg-primary-900 text-white z-10">
-        <div className="max-w-[1280px] flex justify-between items-center m-auto">
+      <motion.header
+        initial={{ opacity: 0, y: -20 }}   // start hidden + slightly above
+        animate={{ opacity: 1, y: 0 }}      // fade + slide into place
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="w-full p-8 sm:px-12 md:px-24 bg-primary-900 text-white z-10 shadow-md"
+      >
+        <div className="flex justify-between items-center m-auto max-w-[1280px]">
           <Link
-            to="/dashboard"
+            to="/"
             className="text-2xl font-bold hover:scale-103 hover:cursor-pointer transition"
           >
-            <span>FragraMap</span>
+            FragraMap
           </Link>
+
+          {/* Desktop Links */}
           <nav className="hidden font-semibold md:flex items-center space-x-6">
             <Link
-              to="/dashboard"
+              to="/register"
               className="hover:scale-103 hover:cursor-pointer transition"
             >
-              Dashboard
+              Register
             </Link>
-            {/* <Link to="/dashboard/profile">Profile</Link>
-            <Link to="/dashboard/settings">Settings</Link> */}
-            <button onClick={logout} className="flex gap-2 items-center hover:scale-103 hover:cursor-pointer transition">
-              Logout
-              <LogoutRoundedIcon></LogoutRoundedIcon>
-            </button>
+            <Link
+              to="/login"
+              className="flex gap-2 hover:scale-103 hover:cursor-pointer transition"
+            >
+              Login
+              <LoginRoundedIcon />
+            </Link>
           </nav>
+
+          {/* Mobile Menu Button */}
           <div className="md:hidden">
             <MenuIcon
               onClick={() => setOpen(true)}
@@ -44,7 +51,7 @@ const NavBar = () => {
             />
           </div>
         </div>
-      </header>
+      </motion.header>
 
       {/* Sidebar Overlay */}
       <AnimatePresence>
@@ -65,8 +72,8 @@ const NavBar = () => {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "tween", duration: 0.2 }}
-              className="fixed top-0 right-0 w-72 h-full bg-neutral-cool-200 shadow-lg p-6 rounded-l-xl flex flex-col justify-between"
-              onClick={(e) => e.stopPropagation()} // prevent overlay close
+              className="fixed top-0 right-0 w-72 h-full bg-neutral-cool-200 shadow-lg p-6 rounded-l-xl flex flex-col"
+              onClick={(e) => e.stopPropagation()}
             >
               <button
                 onClick={() => setOpen(false)}
@@ -75,17 +82,15 @@ const NavBar = () => {
                 <CloseIcon fontSize="large" />
               </button>
 
-              {/* Nav links */}
+              {/* Nav Links */}
               <div className="flex flex-col gap-4 mt-10 p-4 font-semibold text-lg">
-                <Link to="/dashboard" onClick={() => setOpen(false)}>Dashboard</Link>
-                {/* <Link to="/dashboard/profile">Profile</Link>
-                <Link to="/dashboard/settings">Settings</Link> */}
+                <Link to="/login" onClick={() => setOpen(false)}>
+                  Login
+                </Link>
+                <Link to="/register" onClick={() => setOpen(false)}>
+                  Register
+                </Link>
               </div>
-
-              {/* Logout at bottom */}
-              <Button onClick={logout} className="w-full">
-                Logout
-              </Button>
             </motion.div>
           </div>
         )}
@@ -94,4 +99,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default PublicNavBar;
