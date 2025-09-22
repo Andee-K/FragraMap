@@ -40,7 +40,7 @@ export default function Home() {
           alt="Background of a perfume bottle"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-primary-200/20" />
+        <div className="absolute inset-0 bg-primary-400/35" />
       </div>
 
       {/* Hero Content */}
@@ -48,7 +48,7 @@ export default function Home() {
         <div className="w-full max-w-[1280px] m-auto">
           <motion.section
             aria-labelledby="home-title"
-            className="flex flex-col gap-3 max-w-2xl"
+            className="flex flex-col gap-5 max-w-2xl"
             variants={container}
             initial="hidden"
             animate="show"
@@ -56,30 +56,29 @@ export default function Home() {
             <motion.h1
               id="home-title"
               variants={item}
-              className="text-4xl font-extrabold text-primary-900 py-4 sm:text-5xl"
+              className="text-3xl font-extrabold text-primary-900 sm:text-4xl md:text-5xl"
             >
               Welcome to FragraMap!
             </motion.h1>
 
             <motion.h2
               variants={item}
-              className="text-xl font-bold text-neutral-cool-900 sm:text-2xl"
+              className="text-xl font-bold text-neutral-cool-900 sm:text-2xl md:text-3xl"
             >
               Uncover the fragrances that tell your unique story.
             </motion.h2>
 
             <motion.p
               variants={item}
-              className="max-w-[30em] text-md font-semibold text-neutral-cool-900 sm:text-lg"
+              className="max-w-[30em] text-lg font-semibold text-neutral-cool-900/80 sm:text-xl"
             >
               Track your tests, compare your favorites, and discover your unique
-              fragrance profile. FragraMap helps you turn every spritz into a
-              confident choice.
+              fragrance profile. FragraMap helps you find your signature scent.
             </motion.p>
 
             <motion.div
               variants={item}
-              className="mt-16 flex flex-wrap gap-4"
+              className="mt-12 flex flex-wrap gap-4"
             >
               <Link
                 to="/register"

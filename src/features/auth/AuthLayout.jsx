@@ -59,7 +59,7 @@ function AuthLayout({
       >
         {/* Header */}
         <div className="mb-10 text-center">
-          <h2 className="text-2xl font-bold text-neutral-cool-900 mb-2">
+          <h2 className="text-2xl font-bold text-neutral-cool-900 mb-4">
             {title}
           </h2>
           <p className="mt-2 text-lg font-medium text-neutral-cool-700">

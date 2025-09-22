@@ -15,7 +15,7 @@ const PublicNavBar = () => {
         initial={{ opacity: 0, y: -20 }}   // start hidden + slightly above
         animate={{ opacity: 1, y: 0 }}      // fade + slide into place
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="w-full p-6 sm:px-12 lg:px-20 bg-primary-900 text-white z-10 shadow-md"
+        className="w-full p-6 py-8 sm:px-12 lg:px-20 bg-primary-900 text-white z-10 shadow-md"
       >
         <div className="flex justify-between items-center m-auto max-w-[1280px]">
           <Link
