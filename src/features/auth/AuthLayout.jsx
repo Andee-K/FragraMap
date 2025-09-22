@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import ExploreRoundedIcon from "@mui/icons-material/ExploreRounded";
 import MailRoundedIcon from "@mui/icons-material/MailRounded";
 import LockRoundedIcon from "@mui/icons-material/LockRounded";
 import BadgeRoundedIcon from "@mui/icons-material/BadgeRounded";
@@ -38,7 +37,7 @@ function AuthLayout({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-primary-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-neutral-cool-300">
       {/* FragraMap Header */}
       <motion.h1
         initial={{ opacity: 0, y: -10 }}
@@ -47,7 +46,7 @@ function AuthLayout({
         className="flex items-center gap-3 text-3xl font-bold mb-6 text-primary-900 hover:text-primary-800 hover:scale-102 transition hover:cursor-pointer"
       >
         <Link to="/">
-          FragraMap <ExploreRoundedIcon fontSize="large" />
+          FragraMap
         </Link>
       </motion.h1>
 

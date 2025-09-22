@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../components/ConfirmModal";
 import { useToast } from "../context/ToastContext";
 import { useFragranceActions } from "../hooks/useFragranceActions";
+import { motion } from "framer-motion";
 
 export default function FinishedFragrances() {
   const { user } = useAuth();
@@ -30,7 +31,11 @@ export default function FinishedFragrances() {
   };
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeInOut" }}
+    >
       <BackButton navigateBack={() => navigate(-1)} />
       <h1 className="text-xl font-semibold mb-4">Finished Fragrances</h1>
 
@@ -56,6 +61,6 @@ export default function FinishedFragrances() {
           type={modal.type}
         />
       )}
-    </div>
+    </motion.div>
   );
 }

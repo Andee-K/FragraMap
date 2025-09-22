@@ -2,6 +2,7 @@ import { useParams } from "react-router";
 import { getGlobalFragrance } from "../services/fragranceService";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import FragranceCard from "../features/search/FragranceCard";
 
@@ -30,7 +31,9 @@ export default function FragranceInfo() {
   }
 
   return (
-    <div className="max-w-2xl m-auto p-6 sm:p-12 border-1 bg-neutral-cool-100 border-neutral-cool-300 rounded-md shadow-sm">
+    <motion.div className="max-w-2xl m-auto p-6 sm:p-12 border-1 bg-neutral-cool-100 border-neutral-cool-300 rounded-md shadow-sm" initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeInOut" }}>
       <button
         className="text-left text-sm font-bold flex items-center gap-1 mb-4 transition-transform hover:scale-105 hover:cursor-pointer"
         onClick={() => navigate(-1)}
@@ -39,6 +42,6 @@ export default function FragranceInfo() {
         Back
       </button>
       <FragranceCard fragranceInfo={fragrance} />
-    </div>
+    </motion.div>
   );
 }

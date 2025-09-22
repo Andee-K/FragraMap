@@ -40,11 +40,11 @@ export default function Home() {
           alt="Background of a perfume bottle"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-neutral-cool-700/30" />
+        <div className="absolute inset-0 bg-primary-200/20" />
       </div>
 
       {/* Hero Content */}
-      <main className="relative flex flex-1 items-center justify-start px-6 sm:px-12 md:px-24 z-10">
+      <main className="relative flex flex-1 items-center justify-start px-6 sm:px-12 lg:px-20 z-10">
         <div className="w-full max-w-[1280px] m-auto">
           <motion.section
             aria-labelledby="home-title"
@@ -79,7 +79,7 @@ export default function Home() {
 
             <motion.div
               variants={item}
-              className="mt-8 flex flex-wrap gap-4"
+              className="mt-16 flex flex-wrap gap-4"
             >
               <Link
                 to="/register"

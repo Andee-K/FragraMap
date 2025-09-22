@@ -9,6 +9,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useFragranceTest } from "../hooks/useFragranceTest";
 import BackButton from "../components/BackButton";
+import { motion } from "framer-motion";
 
 function FragranceTest() {
   const { fragranceId } = useParams();
@@ -31,7 +32,12 @@ function FragranceTest() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div className="flex flex-col gap-6 p-3 max-w-[720px] m-auto">
+      <motion.div
+        className="flex flex-col gap-6 p-3 max-w-[720px] m-auto"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: "easeInOut" }}
+      >
         <div>
           <BackButton navigateBack={() => navigate(-1)}></BackButton>
           {/* Dynamic heading based on state */}
@@ -89,7 +95,7 @@ function FragranceTest() {
             Save
           </Button>
         </div>
-      </div>
+      </motion.div>
     </LocalizationProvider>
   );
 }

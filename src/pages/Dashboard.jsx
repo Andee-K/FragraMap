@@ -8,6 +8,7 @@ import ConfirmModal from "../components/ConfirmModal";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { useToast } from "../context/ToastContext";
 import { useFragranceActions } from "../hooks/useFragranceActions";
+import { motion } from "framer-motion";
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -47,7 +48,12 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="dashboard-container">
+    <motion.div
+      className="dashboard-container"
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeInOut" }}
+    >
       <h1 className="text-2xl font-medium mt-2 mb-4">
         Welcome, <span className="font-bold">{user.displayName}!</span>
       </h1>
@@ -130,6 +136,6 @@ export default function Dashboard() {
           type={modal.type}
         />
       )}
-    </div>
+    </motion.div>
   );
 }
