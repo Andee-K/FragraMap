@@ -114,7 +114,7 @@ const AddFragranceModal = ({ fragranceInfo, onClose }) => {
 
       <FragranceCard fragranceInfo={fragranceInfo} />
 
-      <div className="mt-6 mb-6 flex gap-3 justify-end">
+      <div className="my-6 mr-3 sm:mr-0 flex gap-3 justify-end">
         <ButtonLight onClick={onClose}>Close</ButtonLight>
         {fragranceStatus === null && (
           <ButtonLight onClick={handleBookmarkClick} disabled={loading}>

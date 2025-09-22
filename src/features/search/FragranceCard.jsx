@@ -33,7 +33,7 @@ const FragranceCard = ({ fragranceInfo }) => {
   const genderColor = getGenderColor(Gender);
 
   return (
-    <div className="fragrance-card-container flex flex-col p-8 gap-8 rounded-md m-auto bg-neutral-cool-100">
+    <div className="fragrance-card-container flex flex-col p-8 gap-8 sm:rounded-md m-auto bg-neutral-cool-100">
       <div className="fragrance-header flex justify-between">
         <div className="header-left text-left">
           <h3 className="fragrance-name text-xl font-semibold">{Name}</h3>
