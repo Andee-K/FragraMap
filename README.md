@@ -1,5 +1,13 @@
 # FragraMap 🌸  
 
+FragraMap is a modern web app for discovering and managing fragrances. It was built to solve the challenge of keeping track of fragrance testing, preferences, and collections in a structured and accessible way—something fragrance enthusiasts often do manually.
+
+Users can search fragrances via an integrated API, save them to their personal collection with notes and ratings, and track their testing progress over time.
+
+To use it: simply sign up or log in, search for a fragrance, and start building your collection. The app runs on React (Vite) + Firebase, with TailwindCSS for styling and Framer Motion for smooth animations.
+
+---
+
 **Live Demo** → [https://fragramap.web.app](https://fragramap.web.app)  
 
 ---
@@ -38,12 +46,19 @@
 ## 📂 Project Structure (High-Level)  
 
 src/
+
 components/ # Reusable UI (Button, NavBar, Modals)
+
 context/ # Auth provider
+
 features/ # Feature modules (auth, search)
+
 pages/ # Route-level pages
+
 services/ # Firestore/API services
+
 firebase/ # Firebase init
+
 assets/ # Static assets
 
 ---
