@@ -1,56 +1,79 @@
-FragraMap 🌸
+```
+# FragraMap 🌸
 
-Live Demo → https://fragramap.web.app
+A modern fragrance discovery and collection app.
 
-Example Screenshots:
+[**Live Demo**](https://fragramap.web.app)
 
-- Dashboard page:
-<img width="1212" height="539" alt="Screenshot 2025-09-22 at 1 23 12 PM" src="https://github.com/user-attachments/assets/31ad348f-9d27-4f46-8f78-210a138f95ff" />
+<br>
 
-- Search results page (ex. "Dior"):
-<img width="1230" height="764" alt="Screenshot 2025-09-22 at 1 24 01 PM" src="https://github.com/user-attachments/assets/7604ecfb-ec13-4f0e-b8bf-88b8c4f0b5a4" />
+<img width="1212" alt="FragraMap Dashboard" src="https://github.com/user-attachments/assets/31ad348f-9d27-4f46-8f78-210a138f95ff">
+<img width="1230" alt="FragraMap Search Results" src="https://github.com/user-attachments/assets/7604ecfb-ec13-4f0e-b8bf-88b8c4f0b5a4">
+<img width="631" alt="FragraMap Fragrance Info Card" src="https://github.com/user-attachments/assets/15e96a0d-2947-46f8-a1d0-4e22247d0e6d">
+<img width="650" alt="FragraMap Single Fragrance Test" src="https://github.com/user-attachments/assets/72e41d56-87b1-428b-8ff5-05ed02655ead">
 
-- Example of fragrance info card (ex. "Dior Sauvage):
-<img width="631" height="773" alt="Screenshot 2025-09-22 at 1 24 29 PM" src="https://github.com/user-attachments/assets/15e96a0d-2947-46f8-a1d0-4e22247d0e6d" />
+---
 
-- Example of single fragrance test:
-<img width="650" height="539" alt="Screenshot 2025-09-22 at 1 26 53 PM" src="https://github.com/user-attachments/assets/72e41d56-87b1-428b-8ff5-05ed02655ead" />
+## Features
 
+FragraMap allows users to:
 
-Tech Stack → React (Vite) · Firebase (Auth, Firestore, Functions) · TailwindCSS · Framer Motion · MUI · Day.js
+* **Search**: Find any fragrance through a powerful server-side API integration.
+* **Collect**: Save fragrances to a personal collection with custom notes and ratings.
+* **Discover**: View detailed information like fragrance notes, accords, longevity, and sillage.
+* **Track**: Keep a log of fragrance testing progress and discover personal preferences.
 
-FragraMap is a modern fragrance discovery and collection app.
+---
 
-Users can:
+## Tech Stack
 
-- Search for any fragrance (via server-side API integration)
-  
-- Save fragrances to their collection with notes/ratings
+* **Frontend**: React (Vite)
+* **Styling**: TailwindCSS, MUI, Framer Motion
+* **State & Data**: Day.js
+* **Backend**: Firebase (Authentication, Firestore, Cloud Functions)
 
-- View fragrance details such as fragrance notes, accords, longevity, sillage
-  
-- Keep track of their testing progress and figure out their own preferences in fragrances
+---
 
-📂 Project Structure (High-Level)
+## Project Structure
+
+```
 
 src/
-  components/      # Reusable UI (Button, NavBar, Modals)
-  context/         # Auth provider
-  features/        # Feature modules (auth, search)
-  pages/           # Route-level pages
-  services/        # Firestore/API services
-  firebase/        # Firebase init
-  assets/          # Static assets
+├── components/       \# Reusable UI components (e.g., Button, NavBar, Modals)
+├── context/          \# React Context providers (e.g., AuthProvider)
+├── features/         \# Modular features (e.g., auth, search)
+├── pages/            \# Route-level pages
+├── services/         \# API and Firestore service functions
+├── firebase/         \# Firebase initialization
+└── assets/           \# Static assets (images, fonts, etc.)
 
-🛠 Quick Start
+````
 
-Requirements: Node 18+, Firebase CLI
+---
 
-# install deps
-npm install
+## Quick Start
 
-# run locally
-npm run dev
+### Requirements
+* Node.js 18+
+* Firebase CLI
 
-# run Firebase emulators (Firestore + Functions)
-firebase emulators:start
+### Installation
+
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/](https://github.com/)<your-username>/FragraMap.git
+    cd FragraMap
+    ```
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+3.  **Run the Firebase emulators** (Firestore and Functions):
+    ```bash
+    firebase emulators:start
+    ```
+4.  **Run the app locally:**
+    ```bash
+    npm run dev
+    ```
+````
