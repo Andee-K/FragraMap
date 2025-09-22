@@ -23,4 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-.qodo
+.qodo/
+functions/
+best_practices.md

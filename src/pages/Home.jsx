@@ -40,7 +40,7 @@ export default function Home() {
           alt="Background of a perfume bottle"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-primary-400/35" />
+        <div className="absolute inset-0 bg-primary-300/20" />
       </div>
 
       {/* Hero Content */}
