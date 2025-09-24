@@ -25,7 +25,7 @@ const ConfirmModal = ({ onClose, onConfirm, name, type }) => {
               <span className="font-semibold  text-neutral-cool-900">
                 {name}
               </span>{" "}
-              as finished? This action is cannot be undone.
+              as finished? This action cannot be undone.
             </>
           )}
         </p>
