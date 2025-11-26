@@ -14,6 +14,7 @@ import {
   getNoteColor,
   getGenderColor,
 } from "../../services/colors";
+
 const FragranceCard = ({ fragranceInfo }) => {
   const {
     Name,
@@ -31,7 +32,14 @@ const FragranceCard = ({ fragranceInfo }) => {
   const longevity = getLongevityScale(Longevity);
   const sillage = getSillageScale(Sillage);
   const genderColor = getGenderColor(Gender);
-
+  const percentageMap = {
+    "Dominant": 100,
+    "Prominent": 75,
+    "Moderate": 50,
+    "Subtle": 25,
+    "Trace": 5,
+  }
+  
   return (
     <div className="fragrance-card-container flex flex-col p-8 gap-8 sm:rounded-md m-auto bg-neutral-cool-100">
       <div className="fragrance-header flex justify-between">
@@ -61,20 +69,21 @@ const FragranceCard = ({ fragranceInfo }) => {
         <h4 className="text-xl font-semibold mb-2">Main Accords</h4>
         <ul className="flex flex-col gap-3">
           {Accords.map((accord) => {
-            const percentage = AccordsPercentage[accord];
+            const accordStrength = AccordsPercentage[accord];
+            const percentage = percentageMap[accordStrength];
             const color = getAccordColor(accord);
 
             return (
               <li key={accord}>
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-sm font-semibold">{accord}</span>
-                  <span className="text-sm font-bold">{percentage}</span>{" "}
+                  <span className="text-sm font-bold">{percentage} %</span>{" "}
                 </div>
                 <div className="flex w-full h-4 overflow-hidden text-xs font-medium rounded-full border-neutral-300 border shadow-xs">
                   <div
                     className={`h-full rounded-full ${color} shadow-sm`}
                     style={{
-                      width: percentage,
+                      width: percentage + "%",
                     }}
                   />
                 </div>

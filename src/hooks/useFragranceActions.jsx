@@ -97,12 +97,20 @@ export function useFragranceActions(uid) {
   const testFragrance = useCallback(
     async (fragranceId, testData) =>
       run(async () => {
-        await updateUserFragrance(uid, fragranceId, {
-          status: "testing",
+        const existingFragrance = await getUserFragrance(uid, fragranceId);
+        const isFinished = existingFragrance?.status === "finished";
+
+        const updatePayload = {
           rating: testData.rating,
           personalNotes: testData.personalNotes,
           testDate: Timestamp.fromDate(testData.testDate.toDate()),
-        });
+        };
+
+        if (!isFinished) {
+          updatePayload.status = "testing";
+        }
+
+        await updateUserFragrance(uid, fragranceId, updatePayload);
         return { success: true, id: fragranceId };
       }),
     [run, uid]

@@ -12,9 +12,9 @@ import { motion } from "framer-motion";
 
 export default function FinishedFragrances() {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const { fragrances, loading } = useUserFragrances(user.uid, "finished");
   const { deleteFragrance } = useFragranceActions(user.uid);
-  const { showToast } = useToast();
   const navigate = useNavigate();
 
   // Modal state

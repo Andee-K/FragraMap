@@ -1,6 +1,7 @@
 // Helper: return Tailwind class from a accord
 // A simple helper function to get the color class
 export function getAccordColor(accord) {
+  console.log(accord)
   const family = colorDictionary[accord.toLowerCase()];
   return family
     ? `bg-${family}-100 border-2 border-${family}-300`
@@ -23,7 +24,6 @@ export function getGenderColor(gender) {
     case "unisex":
       return "bg-unisex text-zinc-800 border-zinc-800";
     default:
-      // ✅ Standardized fallback color
       return "bg-gray-200 text-gray-600 border-gray-600";
   }
 }
